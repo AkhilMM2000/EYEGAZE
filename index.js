@@ -6,7 +6,7 @@ mongoose.connect(process.env.DB).then(() => {
 }).catch((err) => {
     console.error('Error connecting to MongoDB:', err.message);
 });
-require('dotenv').config()
+
 
 //require express module
 const express=require('express');
