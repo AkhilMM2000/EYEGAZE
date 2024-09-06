@@ -201,7 +201,7 @@ const forget_password = async (req, res) => {
 const new_password = async (req, res) => {
   try {
     const get_email = req.body.email;
-    const link = `http://localhost:5000/forgetpassword`;
+    const link = `https://eyegaze.shop/forgetpassword`;
     const check_mail = await User.findOne({ userEmail: get_email });
 
     if (!check_mail) {
