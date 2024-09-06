@@ -1,0 +1,182 @@
+<%- include('../partials/header') %>
+
+<div class="bg-image d-flex align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="card p-4">
+            <div class="card-body">
+              <h3 class="text-center mb-4">Enter OTP</h3>
+              <p class="text-center mb-4">We have sent you a 4-digit OTP to your email.</p>
+              <form id="otpForm">
+                <div class="form-group d-flex justify-content-center">
+                  <input type="text" class="form-control otp-input" name="otp1" maxlength="1" oninput="moveCursor(this, 'otp2')">
+                  <input type="text" class="form-control otp-input" name="otp2" maxlength="1" oninput="moveCursor(this, 'otp3')">
+                  <input type="text" class="form-control otp-input" name="otp3" maxlength="1" oninput="moveCursor(this, 'otp4')">
+                  <input type="text" class="form-control otp-input" name="otp4" maxlength="1">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-4">Verify</button>
+              </form>
+              <p class="text-center text-muted mt-3">
+                Didn't receive the code? 
+                <!-- <a href="" id="resend-link" class="resend-link"><u>Resend</u></a> -->
+                <button  id="resend-link" class="resend-link"  style="display:none;">Resend</button>
+              </p>
+              <p class="text-center text-muted mt-3 timer">      
+                <span id="timer"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<script>
+  
+
+
+document.getElementById('otpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+
+
+    try {
+      const response = await fetch('/otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'OTP Verified!',
+          text: 'You will be redirected shortly.',
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = '/sign';
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid OTP',
+          text: result.message || 'The OTP you entered is incorrect. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!'
+      });
+    }
+  });
+
+</script>
+
+  <script>
+let otpDurationSeconds = 60; // 1 minute
+    const otpTimerElement = document.getElementById('timer');
+    const otpForm = document.getElementById('otpForm');
+    const resendOTPBtn = document.getElementById('resend-link');
+  
+    document.addEventListener("DOMContentLoaded", function() {
+        resendOTPBtn.addEventListener('click', resendOTP);
+        startOTPTimer();
+    });
+
+    function updateOTPTimer() {
+        const minutes = Math.floor(otpDurationSeconds / 60);
+        const seconds = otpDurationSeconds % 60;
+        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        otpTimerElement.textContent = formattedTime;
+        
+        // Decrement the timer
+        otpDurationSeconds--;
+          
+        // Check if the timer has reached 0
+        if (otpDurationSeconds < 0) {
+            clearInterval(timerInterval); // Stop the timer
+            resendOTPBtn.style.display = 'block'; // Show the Resend OTP button
+            otpForm.reset(); // Reset the form
+        }
+    }
+
+    function startOTPTimer() {
+        updateOTPTimer();
+        timerInterval = setInterval(updateOTPTimer, 1000);
+    }
+
+    async function resendOTP() {
+        try {
+            const response = await fetch('/otp_resend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                otpDurationSeconds = 60; // Reset the timer duration
+                startOTPTimer(); // Restart the timer
+                resendOTPBtn.style.display = 'none'; // Hide the Resend OTP button
+                alert('OTP resent successfully.');
+            } else {
+                console.error('Error resending OTP:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error resending OTP:', error);
+        }
+    }
+
+    
+    // Function to submit the OTP form
+    // otpForm.addEventListener('submit', function(event) {
+    //     event.preventDefault(); // Prevent the default form submission
+    //     clearInterval(timerInterval); // Stop the timer
+    //     this.submit(); // Submit the form
+    // });
+
+//for handling input come go to next input field
+    
+    document.addEventListener("DOMContentLoaded", function() {
+  const otpInputs = document.querySelectorAll('.otp-input');
+
+  otpInputs.forEach((input, index) => {
+    input.addEventListener('input', function() {
+      if (input.value.length === 1) {
+        // Move to the next input if exists
+        if (index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      }
+    });
+
+    input.addEventListener('keydown', function(event) {
+      // Handle backspace event
+      if (event.key === 'Backspace' && input.value.length === 0) {
+        if (index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      }
+    });
+  });
+});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+  
+  <%- include('../partials/footer') %>

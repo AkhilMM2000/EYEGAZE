@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EYEGAZE </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .sign-in {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .google-login {
+            background-color: white;
+            color: #757575;
+            border: 1px solid #ddd;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>EYEGAZE</h2>
+        <form id="set-newpassword">
+            <input type="password" placeholder="new password" id="userpassword" name="password"
+                onkeyup="validatePassword()" required>
+            <div id="show-error"></div>
+            <input type="password" placeholder="confirm-Password" id="confirmPassword" name="confirm"
+                onkeyup="validatePasswords()" required>
+            <div id="confirm-password-error"></div>
+            <button type="submit" class="sign-in">sumbit</button>
+        </form>
+    </div>
+</body>
+
+</html>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('set-newpassword').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            let object = {};
+
+            for (let [key, value] of formData.entries()) {
+                object[key] = value;
+            }
+            try {
+                const response = await fetch('/savenewpassword', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(object)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            if (data.redirect) {
+                                window.location.href = data.redirect; // Redirect to the provided URL
+                            } else {
+                                window.location.reload(); // Reload the page if no redirect is provided
+                            }
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: `An error occurred: ${error.message}`,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+    function validatePassword() {
+        const password = document.getElementById('userpassword').value;
+        const passwordError = document.getElementById('show-error');
+        console.log(password);
+
+        if (password.length < 8) {
+            passwordError.innerHTML = 'Password must be at least 8 characters long'
+            passwordError.style.color = 'red';
+            return false;
+        }
+
+        var simplePasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
+
+        if (!password.match(simplePasswordRegex)) {
+            passwordError.innerHTML = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+            passwordError.style.color = 'red';
+            return false;
+        }
+
+        passwordError.innerHTML = 'Valid password';
+        passwordError.style.color = 'green';
+        return true;
+    }
+
+    function validatePasswords() {
+        var newPassword = document.getElementById('userpassword').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var confirmPasswordError = document.getElementById('confirm-password-error');
+
+        if (newPassword !== confirmPassword) {
+            confirmPasswordError.innerHTML = 'Passwords do not match';
+            confirmPasswordError.style.color = 'red';
+            return false;
+        }
+
+        confirmPasswordError.innerHTML = 'Passwords match';
+        confirmPasswordError.style.color = 'green';
+        return true;
+    }
+
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>

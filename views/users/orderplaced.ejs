@@ -1,0 +1,291 @@
+<%- include('../partials/header') %>
+
+<style>
+
+    
+@keyframes activateStep {
+    from { background-color: initial; }
+    to { background-color: #28a745; /* Green color */ }
+}
+
+.process.activating {
+    animation: activateStep 0.5s forwards;
+}
+
+.process.active {
+    background-color: #28a745; /* Green color */
+}
+
+/* Adjust text color for better visibility on green background */
+.process.active p, .process.active h3,
+.process.activating p, .process.activating h3 {
+    color: white;
+}
+.order-details h3, .order-details h4 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.address-details, .order-summary {
+    background-color: #f9f9f9;
+    height: 100%;
+}
+
+.table th {
+    background-color: #f1f1f1;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.img-thumbnail {
+    border: 1px solid #ddd;
+}
+.order-confirmation {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.icon-success {
+    margin-bottom: 15px;
+}
+
+.icon-success i {
+    color: #28a745;
+}
+</style>
+<div class="colorlib-loader"></div>
+
+    <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+                            <div id="colorlib-logo"><a href="/home">EYEGAZE</a></div>
+                        </div>
+                
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li class="has-dropdown active">
+                                    <a href="men.html">Men</a>
+                                    <ul class="dropdown">
+                                        <li><a href="product-detail.html">Product Detail</a></li>
+                                        <li><a href="cart.html">Shopping Cart</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li><a href="order-complete.html">Order Complete</a></li>
+                                        <li><a href="add-to-wishlist.html">Wishlist</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="women.html">Women</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+<!-- nav end here -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="bread"><span><a href="/orders">your orders</a></span> / <span>Purchase Complete</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row row-pb-lg">
+            <div class="col-sm-10 offset-md-1">
+                <div class="process-wrap">
+                    <div class="process text-center" id="step1">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center" id="step2">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center" id="step3">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 offset-sm-1 text-center">
+                <div class="order-confirmation text-center">
+                    <p class="icon-success mb-3">
+                        <span><i class="fas fa-check-circle fa-3x text-success"></i></span>
+                    </p>
+                    <h4 class="mb-3">Order Confirmed</h4>
+                    <p class="text-muted">Thank you for your purchase. Your order has been successfully placed.</p>
+                </div>
+    <!------------------------------------------------------------------------------ ejs content start form here------------------------------------------------------------------------------------------------------------------          -->
+                <!-- Order Details Section -->
+                <div class="order-details mt-4">
+                    <h3 class="mb-4">Order Details</h3>
+                    
+                    <div class="row">
+                        <!-- Address Section -->
+                        <div class="col-md-6">
+                            <div class="address-details p-3 border rounded">
+                                <h4 class="mb-3">Shipping Address</h4>
+                                <address>
+                                    <strong><%=addressdata. addressName%></strong><br>
+                                    <%=addressdata. addressHouse%> <%=addressdata. addressStreet%>,<%=addressdata. addressPost%><br>
+                                     <%=addressdata. addressCity%><br>
+                                    <%=addressdata. addressDistrict%>, <%=addressdata. addressState%> - <%=addressdata. addressPin%><br>
+                                    <i class="fas fa-phone-alt"></i> <%=addressdata. addressMobile%><br>
+                                    <i class="fas fa-envelope"></i> <%=addressdata. addressEmail%>
+                                </address>
+                            </div>
+                        </div>
+                
+                        <!-- Order Summary -->
+                        <div class="col-md-6">
+                            <div class="order-summary p-3 border rounded">
+                                <h4 class="mb-3">Order Summary</h4>
+                                <ul class="list-unstyled">
+                                    <li>Order ID: <strong>#<%=order.orderId%></strong></li>
+                                    <li>Order Date: <strong><%=order.orderDate.toISOString().split('T')[0]%></strong></li>
+                                    <li>Payment Method: <strong><%=order.  paymentMethod%></strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Product Table -->
+                    <div class="product-details mt-4">
+                        <h4 class="mb-3">Ordered Products</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <%order.products.forEach(an =>{%>
+                                    <tr>
+                                        <td><img src="/productimage/<%=an.productId.productimages[0]%>" alt="Product 1" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                                        <td><%=an.productId.productName%></td>
+                                        <td><%=an.quantity%></td>
+                                        <td><%=an.price%></td>
+                                        <td><%= an.quantity * an.price %></td>
+                                    </tr>
+                                <%})%>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
+                                        <td><strong>&#8377;<%=order.totalAmount%></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Shipping:</strong></td>
+                                        <td><strong>&#8377;00</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Total Amount:</strong></td>
+                                        <td><strong>&#8377;<%=order.totalAmount%></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+<!--------------- ejs content end here -----------------------------------------------------content end here------------------------------------------------------------------------------------------------>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function activateSteps() {
+            const steps = ['step1', 'step2', 'step3'];
+            let delay = 0;
+    
+            steps.forEach((stepId, index) => {
+                setTimeout(() => {
+                    const step = document.getElementById(stepId);
+                    step.classList.add('activating');
+                    setTimeout(() => {
+                        step.classList.remove('activating');
+                        step.classList.add('active');
+                    }, 500); // Match this to the animation duration
+                }, delay);
+                delay += 700; // Adjust this for desired delay between steps
+            });
+        }
+    
+        // Run the animation when the page loads
+        activateSteps();
+    
+        // Optionally, run the animation again when a specific button is clicked
+        // document.getElementById('reloadButton').addEventListener('click', activateSteps);
+    });
+    </script>
+
+<script src="/js/jquery.min.js"></script>
+<!-- popper -->
+<script src="/js/popper.min.js"></script>
+<!-- bootstrap 4.1 -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- jQuery easing -->
+<script src="/js/jquery.easing.1.3.js"></script>
+<!-- Waypoints -->
+<script src="/js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="/js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/magnific-popup-options.js"></script>
+<!-- Date Picker -->
+
+<!-- Main -->
+<script src="/js/main.js"></script>
+<%- include('../partials/footer') %>

@@ -1,0 +1,816 @@
+<%- include('../partials/header') %>
+  <!-- <style>
+
+
+
+        .container {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .btn-group {
+            margin-bottom: 10px;
+        }
+
+</style> -->
+<style>
+    .out-of-stock {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.rainbow-text {
+    background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: rainbow 5s ease infinite;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+</style>
+
+    <div class="colorlib-loader"></div>
+     <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+                            <div id="colorlib-logo"><a href="index.html">EYEGAZE</a></div>
+                        </div>
+                        <div class="col-sm-5 col-md-3">
+                            <form action="/product" class="search-wrap" method="get">
+                                <div class="form-group">
+                                    <input type="search" name="search" class="form-control search" placeholder="Search" value="<%= searchQuery || '' %>">
+                                    <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li class="active"><a href="/">Home</a></li>
+                                <li><a href="/product">shop</a></li>
+                                <li><a href="/abouts">About</a></li>
+                                <li><a href="/contacts">Contact</a></li>
+
+                                <!-- <li class="cart"><a href="/sign">Login/Sign Up</a></li> -->
+
+                                <li class="cart dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">my account <span
+                                            class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <!-- <li><a href="#">AKHIL manoj</a></li> -->
+                                        <li><a href="/myaccount">go</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="/cart">go for your cart</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="/cart">go for your cart</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- <aside id="colorlib-hero">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li style="background-image: url(images/newone_bg.jpg);">
+                        <div class="overlay"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 offset-sm-3 text-center slider-text">
+                                    <div class="slider-text-inner">
+                                        <div class="desc">
+                                            <h1 class="head-1">Men's</h1>
+                                            <h2 class="head-2">Lens</h2>
+                                            <h2 class="head-3">Collection</h2>
+                                            <p class="category"><span>New trending shoes</span></p>
+                                            <p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="background-image: url(images/secondbg.jpg);">
+                        <div class="overlay"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 offset-sm-3 text-center slider-text">
+                                    <div class="slider-text-inner">
+                                        <div class="desc">
+                                            <h1 class="head-1">Huge</h1>
+                                            <h2 class="head-2">Sale</h2>
+                                            <h2 class="head-3"><strong class="font-weight-bold">50%</strong> Off</h2>
+                                            <p class="category"><span>Big sale sandals</span></p>
+                                            <p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li style="background-image: url(images/laptopbg.jpeg);">
+                        <div class="overlay"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 offset-sm-3 text-center slider-text">
+                                    <div class="slider-text-inner">
+                                        <div class="desc">
+                                            <h1 class="head-1">New</h1>
+                                            <h2 class="head-2">Arrival</h2>
+                                            <h2 class="head-3">up to <strong class="font-weight-bold">30%</strong> off
+                                            </h2>
+                                            <p class="category"><span>New stylish shoes for men</span></p>
+                                            <p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div class="container text-center">
+            <h2 class="mb-4">It started with a simple idea: Craft quality, well-designed spectacles that I wanted to
+                wear myself."</h2>
+
+        </div> -->
+        <div class="colorlib-product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+                        <h2>Best Sellers</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- New left sidebar for sorting and filtering -->
+                    <div class="col-lg-3">
+                        <div class="sidebar">
+                            <h3>Sort and Filter</h3>
+                            <div class="sorting-options mb-4">
+                                <h4>Sort by</h4>
+                                <select class="form-control" id="sortDropdown">
+                                    <option value="">All</option>
+                                    <option value="low-high" <%=selectedSort==='low-high' ? 'selected' : '' %>>Price:
+                                        Low to High</option>
+                                    <option value="high-low" <%=selectedSort==='high-low' ? 'selected' : '' %>>Price:
+                                        High to Low</option>
+                                    <option value="name_asc" <%=selectedSort==='name_asc' ? 'selected' : '' %>>Name: A
+                                        to Z</option>
+                                    <option value="name_desc" <%=selectedSort==='name_desc' ? 'selected' : '' %>>Name: Z
+                                        to A</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-options mb-4">
+                                <h4>Filter by Category</h4>
+                                <div id="categoryCheckboxes">
+                                    <% categories.forEach(function(category) { %>
+                                        <div class="form-check">
+                                            <input class="form-check-input category-filter" type="checkbox" 
+                                                   value="<%= category.categoryName %>" 
+                                                   id="category<%= category._id %>"
+                                                   data-id="<%= category._id %>">
+                                            <label class="form-check-label" for="category<%= category._id %>">
+                                                <%= category.categoryName %>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-options mb-4">
+                                <h4>Filter by Brand</h4>
+                                <div id="brandCheckboxes">
+                                    <% brands.forEach(function(brand) { %>
+                                        <div class="form-check">
+                                            <input class="form-check-input brand-filter" type="checkbox"
+                                                   value="<%= brand.brandName %>" 
+                                                   id="brand<%= brand._id %>"
+                                                   data-id="<%= brand._id %>">
+                                            <label class="form-check-label" for="brand<%= brand._id %>">
+                                                <%= brand.brandName %>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product listing -->
+                    <div class="col-lg-9">
+                        <div class="row row-pb-md">
+                            <% for (let i = 0; i < products.length; i++) { %>
+                                <div class="col-lg-4 mb-4 text-center product-div" data-product-id="<%= products[i]._id %>">
+                                    <div class="product-entry border position-relative">
+                                        <% if (products[i].discountPrice < products[i].price) { %>
+                                            <div class="offer-tag">
+                                                <%= ((1 - (products[i].discountPrice / products[i].price)) * 100).toFixed(0) %>% OFF
+                                            </div>
+                                        <% } %>
+                                        <% if (products[i].stock <= 0) { %>
+                                            <div class="out-of-stock rainbow-text">
+                                                Out of Stock
+                                            </div>
+                                        <% } %>
+                                        <a href="#" class="prod-img d-block overflow-hidden">
+                                            <img src="productimage/<%= products[i].productimages[0] %>" class="img-fluid" alt="<%= products[i].productName %>">
+                                        </a>
+                                        <div class="desc p-3">
+                                            <h2 class="product-title"><a href="#"><%= products[i].productName %></a></h2>
+                                            <div class="price-wrap">
+                                                <% if (products[i].discountPrice < products[i].price) { %>
+                                                    <span class="price">RS <%= products[i].discountPrice %></span>
+                                                    <del class="old-price">RS <%= products[i].price %></del>
+                                                <% } else { %>
+                                                    <span class="price">RS <%= products[i].price %></span>
+                                                <% } %>
+                                            </div>
+                                            <button class="btn btn-primary btn-sm mt-2">View Product</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% if ((i + 1) % 3 === 0 && i !== products.length - 1) { %>
+                                    <div class="w-100"></div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                </div>
+                 <!-- //---------------------------------------------------------------------------pagination start here ---------------------->
+                  
+                 <div class="row">
+                    <div class="col-md-12 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <% if (currentPage > 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage - 1 %><%= queryString %>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= i %><%= queryString %>"><%= i %></a>
+                                    </li>
+                                <% } %>
+                                
+                                <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage + 1 %><%= queryString %>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- //---------------------------------------------------------------------------pagination end here ------------------------->
+            </div>
+        </div>
+
+        <div class="colorlib-partner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+                        <h2>Trusted Partners</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col partner-col text-center">
+                        <img src="images/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                    </div>
+                    <div class="col partner-col text-center">
+                        <img src="images/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                    </div>
+                    <div class="col partner-col text-center">
+                        <img src="images/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                    </div>
+                    <div class="col partner-col text-center">
+                        <img src="images/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                    </div>
+                    <div class="col partner-col text-center">
+                        <img src="images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer id="colorlib-footer" role="contentinfo">
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col footer-col colorlib-widget">
+                        <h4>About Footwear</h4>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+                            unorthographic life</p>
+                        <p>
+                        <ul class="colorlib-social-icons">
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Customer Care</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Returns/Exchange</a></li>
+                            <li><a href="#">Gift Voucher</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Special</a></li>
+                            <li><a href="#">Customer Services</a></li>
+                            <li><a href="#">Site maps</a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Information</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">Order Tracking</a></li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>News</h4>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Exhibitions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>Contact Information</h4>
+                        <ul class="colorlib-footer-links">
+                            <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                            <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                            <li><a href="#">yoursite.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copy">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <p>
+                            <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </span>
+                            <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
+                                , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+    </div>
+    <!-- load product details---------------------------------------------------------- -->
+    <style>
+        .product-entry {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .product-entry:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .offer-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 3px;
+            z-index: 1;
+        }
+
+        .prod-img {
+            position: relative;
+            padding-bottom: 100%;
+            background-color: #f8f9fa;
+        }
+
+        .prod-img img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-entry:hover .prod-img img {
+            transform: scale(1.05);
+        }
+
+        .product-title a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .price-wrap {
+            margin-top: 10px;
+        }
+
+        .price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .old-price {
+            color: #6c757d;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+
+    <script>
+
+        // Ensure the DOM is fully loaded before attaching the event listener
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const productDivs = document.querySelectorAll('.product-div');
+
+            productDivs.forEach(div => {
+                div.addEventListener('click', () => {
+                    const productId = div.getAttribute('data-product-id');
+                    window.location.href = `/productdetail/${productId}`;
+                });
+            });
+        });
+
+        //sort for the products--------------------------------------------------------------------------
+
+        // document.getElementById('sortDropdown').addEventListener('change', function () {
+        //     const selectedOption = this.value;
+        //     window.location.href = `/product?sort=${selectedOption}`;
+        // });
+
+
+
+    </script>
+
+
+
+
+
+
+    <script src="/js/jquery.min.js"></script>
+    <!-- popper -->
+    <script src="/js/popper.min.js"></script>
+    <!-- bootstrap 4.1 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- jQuery easing -->
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <!-- Waypoints -->
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <!-- Flexslider -->
+    <script src="/js/jquery.flexslider-min.js"></script>
+    <!-- Owl carousel -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/js/bootstrap-datepicker.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="/js/jquery.stellar.min.js"></script>
+    <!-- Main -->
+    <script src="/js/main.js"></script>
+
+
+
+    <%- include('../partials/footer') %>
+      
+       
+      <!-- <script>
+     let selectedCategories = [];
+let selectedBrands = [];
+
+function updateURL() {
+    const queryParams = new URLSearchParams(window.location.search);
+    
+    if (selectedCategories.length > 0) {
+        queryParams.set('categories', selectedCategories.map(cat => cat.id).join(','));
+    } else {
+        queryParams.delete('categories');
+    }
+    
+    if (selectedBrands.length > 0) {
+        queryParams.set('brands', selectedBrands.map(brand => brand.id).join(','));
+    } else {
+        queryParams.delete('brands');
+    }
+
+    window.location.search = queryParams.toString();
+}
+
+function setCheckboxesFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    const categories = params.get('categories');
+    if (categories) {
+        categories.split(',').forEach(id => {
+            const checkbox = document.querySelector(`.category-filter[data-id="${id}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+                selectedCategories.push({ id: id, name: checkbox.value });
+            }
+        });
+    }
+
+    const brands = params.get('brands');
+    if (brands) {
+        brands.split(',').forEach(id => {
+            const checkbox = document.querySelector(`.brand-filter[data-id="${id}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+                selectedBrands.push({ id: id, name: checkbox.value });
+            }
+        });
+    }
+}
+
+// Event listeners for category checkboxes
+document.querySelectorAll('.category-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedCategories.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedCategories = selectedCategories.filter(cat => cat.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Event listeners for brand checkboxes
+document.querySelectorAll('.brand-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedBrands.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedBrands = selectedBrands.filter(brand => brand.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Call this function when the page loads
+setCheckboxesFromURL();
+      </script> -->
+        <!-- <script>
+   let selectedCategories = [];
+let selectedBrands = [];
+
+function updateURL() {
+    const queryParams = new URLSearchParams();
+    
+    if (selectedCategories.length > 0) {
+        selectedCategories.forEach(cat => {
+            queryParams.append('categories', cat.id);
+        });
+    }
+    
+    if (selectedBrands.length > 0) {
+        selectedBrands.forEach(brand=>{
+            queryParams.append('brands',brand.id)
+        })
+    }
+
+    window.history.replaceState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
+}
+
+function setCheckboxesFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    const categories = params.getAll('categories');
+    categories.forEach(id => {
+        const checkbox = document.querySelector(`.category-filter[data-id="${id}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            selectedCategories.push({ id: id, name: checkbox.value });
+        }
+    });
+
+    const brands = params.getAll('brands');
+    brands.forEach(id => {
+        const checkbox = document.querySelector(`.brand-filter[data-id="${id}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            selectedBrands.push({ id: id, name: checkbox.value });
+        }
+    });
+}
+
+// Event listeners for category checkboxes
+document.querySelectorAll('.category-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedCategories.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedCategories = selectedCategories.filter(cat => cat.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Event listeners for brand checkboxes
+document.querySelectorAll('.brand-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedBrands.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedBrands = selectedBrands.filter(brand => brand.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setCheckboxesFromURL();
+});
+
+        </script> -->
+        <script>
+let selectedCategories = [];
+let selectedBrands = [];
+
+function updateURL() {
+    const queryParams = new URLSearchParams(window.location.search);
+    
+    if (selectedCategories.length > 0) {
+        queryParams.delete('categories');
+        selectedCategories.forEach(cat => {
+            queryParams.append('categories', cat.id);
+        });
+    } else {
+        queryParams.delete('categories');
+    }
+    
+    if (selectedBrands.length > 0) {
+        queryParams.delete('brands');
+        selectedBrands.forEach(brand => {
+            queryParams.append('brands', brand.id);
+        });
+    } else {
+        queryParams.delete('brands');
+    }
+
+    // Preserve the sort parameter if it exists
+    const sortValue = document.getElementById('sortDropdown').value;
+    if (sortValue) {
+        queryParams.set('sort', sortValue);
+    }
+
+    // This will cause the page to reload
+    window.location.href = `${window.location.pathname}?${queryParams.toString()}`;
+}
+
+function setCheckboxesFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    const categories = params.getAll('categories');
+    categories.forEach(id => {
+        const checkbox = document.querySelector(`.category-filter[data-id="${id}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            selectedCategories.push({ id: id, name: checkbox.value });
+        }
+    });
+
+    const brands = params.getAll('brands');
+    brands.forEach(id => {
+        const checkbox = document.querySelector(`.brand-filter[data-id="${id}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            selectedBrands.push({ id: id, name: checkbox.value });
+        }
+    });
+
+    // Set the sort dropdown value if it exists in the URL
+    const sortValue = params.get('sort');
+    if (sortValue) {
+        const sortDropdown = document.getElementById('sortDropdown');
+        if (sortDropdown) {
+            sortDropdown.value = sortValue;
+        }
+    }
+}
+
+// Event listeners for category checkboxes
+document.querySelectorAll('.category-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedCategories.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedCategories = selectedCategories.filter(cat => cat.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Event listeners for brand checkboxes
+document.querySelectorAll('.brand-filter').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            selectedBrands.push({ name: this.value, id: this.dataset.id });
+        } else {
+            selectedBrands = selectedBrands.filter(brand => brand.id !== this.dataset.id);
+        }
+        updateURL();
+    });
+});
+
+// Event listener for sort dropdown
+document.getElementById('sortDropdown').addEventListener('change', function () {
+    updateURL();
+});
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setCheckboxesFromURL();
+});
+
+
+        </script>

@@ -1,0 +1,39 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.bg-image {
+  background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+.card {
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.otp-input {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 24px;
+  margin: 0 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+.otp-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.timer {
+  font-size: 24px; /* Increase the font size */
+  font-weight: bold; /* Make it bold */
+  color: red; /* Change the color to red */
+}
+.resend-link {
+  font-size: 18px; /* Increase the font size */
+  color: #007bff; /* Initial color */
+  padding: 10px; /* Add some padding */
+  text-decoration: underline; /* Underline the text */
+  cursor: pointer; /* Show pointer on hover */
+}

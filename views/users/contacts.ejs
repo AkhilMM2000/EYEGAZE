@@ -1,0 +1,219 @@
+<%- include('../partials/header') %>
+<style>
+      .contact-page {
+        background: url('https://example.com/path-to-your-background-image.jpg') no-repeat center center/cover;
+        color: #fff;
+        padding: 60px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-page .container {
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-page h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #ffd700;
+    }
+
+    .contact-page p.lead {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #dcdde1;
+    }
+
+    .contact-page p {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #dcdde1;
+    }
+
+    .contact-page .btn-primary {
+        background-color: #1e90ff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .contact-page .btn-primary:hover {
+        background-color: #3742fa;
+    }
+
+    .contact-info p {
+        font-size: 1.1rem;
+        color: #ffd700;
+        margin-bottom: 10px;
+    }
+
+    .icon-block {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin-top: 30px;
+    }
+
+    .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 1.2rem;
+        color: #ffd700;
+    }
+
+    .icon-item i {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .icon-item p {
+        margin: 0;
+        font-size: 1rem;
+        color: #dcdde1;
+    }
+
+    @media (max-width: 768px) {
+        .contact-page h1 {
+            font-size: 2.5rem;
+        }
+
+        .contact-page p.lead {
+            font-size: 1.2rem;
+        }
+
+        .contact-page p {
+            font-size: 1rem;
+        }
+
+        .icon-block {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .icon-item i {
+            font-size: 2rem;
+        }
+
+        .icon-item p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+<div class="colorlib-loader"></div>
+
+<div id="page">
+    <nav class="colorlib-nav" role="navigation">
+        <div class="top-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-7 col-md-9">
+                        <div id="colorlib-logo"><a href="index.html">EYEGAZE</a></div>
+                    </div>
+                   
+             </div>
+                <div class="row">
+                    <div class="col-sm-12 text-left menu-1">
+                        <ul>
+                            <li class="active"><a href="/">Home</a></li>
+                                <li><a href="/product">shop</a></li>
+                                <li><a href="/abouts">About</a></li>
+                                <li><a href="/contacts">Contact</a></li>
+                        
+                           
+                       
+               
+                        
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sale">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 offset-sm-2 text-center">
+                        <div class="row">
+                            <div class="owl-carousel2">
+                                <div class="item">
+                                    <div class="col">
+                                        <h3><a href="#">CONNECT WITH US</a></h3>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col">
+                                        <h3><a href="#">CONNECT WITH US</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+   
+<div class="contact-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 text-center">
+                <div class="contact-content">
+                    <h1>Contact EyeGaze</h1>
+                    <p class="lead">We’d love to hear from you! Whether you have a question about our products, need assistance, or just want to say hi, feel free to reach out.</p>
+                    <p>
+                        At EyeGaze, we value our customers and strive to provide the best service possible. Your feedback and inquiries are important to us. Get in touch with our team, and we'll respond as soon as we can.
+                    </p>
+                    <p>
+                        You can reach us by email, phone, or through our social media channels. We look forward to connecting with you!
+                    </p>
+                    <a href="mailto:manojakhil36@gmail.com" class="btn btn-primary btn-lg mt-4">
+                        <i class="fas fa-envelope me-2"></i>Email Us
+                    </a>
+
+                    <div class="contact-info mt-5">
+                        <p><i class="fas fa-phone-alt me-2"></i>Phone:+91 7510545291</p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i>Address: 123 EyeGaze lulumall,kochi,kerala,687533</p>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 	
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- popper -->
+<script src="js/popper.min.js"></script>
+<!-- bootstrap 4.1 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- jQuery easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+<!-- Owl carousel -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- Magnific Popup -->
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/magnific-popup-options.js"></script>
+<!-- Date Picker -->
+<script src="js/bootstrap-datepicker.js"></script>
+<!-- Stellar Parallax -->
+<script src="js/jquery.stellar.min.js"></script>
+<!-- Main -->
+<script src="js/main.js"></script> -->
+
+
+
+<%- include('../partials/footer') %>

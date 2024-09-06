@@ -1,0 +1,423 @@
+<%- include('../partials/admheader') %>
+ 
+<div class="container-scroller">
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: hsl(0, 10%, 92%);">
+    <div class="navbar-brand-wrapper d-flex align-items-center">
+      <a class="navbar-brand brand-logo" href="/admin/dashboard" style="text-decoration: none;">
+        <span style="font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center;">
+          <i class="mdi mdi-glasses mr-2" style="font-size: 28px;"></i>
+          <span style="margin-left: 5px;">EYEGAZE</span>
+        </span>
+      </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item">
+          <span class="nav-link nav-profile">Akhil</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <div class="row row-offcanvas row-offcanvas-right">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/dashboard">
+              <span class="menu-title">Dashboard</span>
+              <i class="mdi mdi-home menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/products">
+              <span class="menu-title">Products</span>
+              <i class="mdi mdi-package-variant-closed menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/category">
+              <span class="menu-title">Categories</span>
+              <i class="mdi mdi-shape menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/brand">
+              <span class="menu-title">Brands</span>
+              <i class="mdi mdi-tag menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/orders">
+              <span class="menu-title">Orders</span>
+              <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/sales">
+              <span class="menu-title">sales</span>
+              <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/offers">
+              <span class="menu-title">Offers</span>
+              <i class="mdi mdi-gift menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/users">
+              <span class="menu-title">Users</span>
+              <i class="mdi mdi-account-multiple menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/coupon">
+              <span class="menu-title">Coupons</span>
+              <i class="mdi mdi-ticket-percent menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/logout">
+              <span class="menu-title">logout</span>
+              <i class="mdi mdi-image menu-icon"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+        <!-- NAV END............................................................................... ----->
+        <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-body">
+                      <div class="col-md-8">
+                        <h4 class="card-title">Manage category</h4>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <a href="/admin/addcategory" class="btn btn-primary">Add New category</a>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Category Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Edit Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% categories.forEach((category, index) => { %>
+                            <tr>
+                              <td><%= index + 1 %></td>
+                              <td class="category-name"><%= category.categoryName %></td>
+                              <td>
+                                <span class="badge <%= category.listed ? 'badge-success' : 'badge-danger' %>">
+                                  <%= category.listed ? 'Listed' : 'Unlisted' %>
+                                </span>
+                              </td>
+                              <td>
+                                <% if(!category.listed) { %>
+                                  <a href="#" class="btn btn-danger btn-sm" onclick="confirmList('<%= category._id %>')" Blocked>Unlist</a>
+                              <% } else { %>
+                                  <a href="#" class="btn btn-success btn-sm" onclick="confirmUnlist('<%= category._id %>')">List</a>
+                              <% } %>
+                                
+                              </td>
+
+                              <td>
+                              
+                      
+   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" onclick="changeName('<%= category._id %>'),showname('<%=category.categoryName%>')"  data-target="#myModal">Edit</button>
+                               
+                              </td>
+                            </tr>
+                          <% }); %>
+                        </tbody>
+                        </table>
+                                                                
+                    </div>
+                  </div>
+                </div>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                      <% if (currentPage > 1) { %>
+                          <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                          </li>
+                      <% } else { %>
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#" tabindex="-1">Previous</a>
+                          </li>
+                      <% } %>
+                      
+                      <% for (let i = 1; i <= totalPages; i++) { %>
+                          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                              <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                          </li>
+                      <% } %>
+                      
+                      <% if (currentPage < totalPages) { %>
+                          <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                          </li>
+                      <% } else { %>
+                          <li class="page-item disabled">
+                              <a class="page-link" href="#" tabindex="-1">Next</a>
+                          </li>
+                      <% } %>
+                  </ul>
+              </nav>
+              
+              </div>
+            
+            </div>
+         
+          </div>
+<!-- div for modal------------------------------------------------------------------------------------------------------------------------------------------------>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+    
+      <div class="mb-3">
+        <label for="categoryName" class="form-label">Change Category Name</label>
+        <input type="text" class="form-control" id="category" name="category-edit" onkeyup="validateName()" required>
+        <div id="brand-error"></div>
+      </div>
+      <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+      
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+
+function validateName() {
+    const brandNameInput = document.getElementById('category');
+    const brandError = document.getElementById('brand-error');
+    const saveChangesBtn = document.getElementById('saveChangesBtn');
+
+    const nameValue = brandNameInput.value.trim();
+
+    if (!nameValue || nameValue.length === 0) {
+        brandError.textContent = "Brand name cannot be empty.";
+        brandError.style.color = "red";
+        saveChangesBtn.disabled = true;
+    } else if (!/^[a-zA-Z\s]{3,}$/.test(nameValue)) {
+        brandError.textContent = "Brand name must be at least 3 characters long and contain only letters.";
+        brandError.style.color = "red";
+        saveChangesBtn.disabled = true;
+    } else if (nameValue.replace(/\s/g, '').length < 3) {
+        brandError.textContent = "Brand name must contain at least 3 non-space characters.";
+        brandError.style.color = "red";
+        saveChangesBtn.disabled = true;
+    } else {
+        brandError.textContent = "";
+        saveChangesBtn.disabled = false;
+    }
+}
+
+
+function showname(data){
+  
+  document.getElementById('category').value=data
+}
+
+
+
+
+
+
+
+
+
+
+
+
+let categoryid;
+function changeName(id){
+  categoryid=id;
+}
+
+
+document.getElementById('saveChangesBtn').addEventListener('click', function() {
+  // Get the value of the input field
+  const categoryName = document.getElementById('category').value;
+console.log(categoryName);
+
+  // Perform any actions you need with the category name
+  // For example, sending it to the server
+  fetch(`/admin/category/editname?id=${categoryid}&catname=${categoryName}`, {
+    method: 'GET'
+
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message.includes('success')) {
+      // Show a success message using SweetAlert and reload the page on confirmation
+      Swal.fire({
+        title: 'Success!',
+        text: data.message,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Reload the page
+          window.location.reload();
+        }
+      });
+    } else {
+      // Show an error message using SweetAlert and reload the page on confirmation
+      Swal.fire({
+        title: 'Error!',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Reload the page
+          window.location.reload();
+        }
+      });
+    }
+  })
+  .catch(error => {
+    // Show an error message using SweetAlert and reload the page on confirmation
+    Swal.fire({
+      title: 'Error!',
+      text: `An error occurred: ${error.message}`,
+      icon: 'error',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Reload the page
+        window.location.reload();
+      }
+    });
+  });
+});
+
+
+</script>
+
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+          <script>
+            ////this is for list the category-----------------------------------------------------------------------
+  function confirmList(categoryid) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, list the category',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/admin/category/list?id=${categoryid}`, {
+            method: 'GET'
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.message === 'category listed successfully') {
+                Swal.fire(
+                  'LISTED',
+                  'category listed succesfully.',
+                  'success'
+                ).then(() => {
+                  window.location.reload();
+                });
+              } else {
+                Swal.fire(
+                  'Error!',
+                  'There was a problem list the category.',
+                  'error'
+                );
+              }
+            })
+            .catch(error => {
+              Swal.fire(
+                'Error!',
+                'There was a problem list the category',
+                'error'
+              );
+            });
+        }
+      });
+    }
+////this is for unlist the category------------------------------------------------------------------------
+function confirmUnlist(categoryId) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, unlist the category',
+    cancelButtonText: 'Cancel',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/admin/category/Unlist?id=${categoryId}`, {
+        method: 'GET'
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'category Ulisted successfully') {
+            Swal.fire(
+              'Unlisted!',
+              'Category unlisted successfully.',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire(
+              'Error!',
+              'There was a problem unlisting the category.',
+              'error'
+            );
+          }
+        })
+        .catch(error => {
+          Swal.fire(
+            'Error!',
+            'There was a problem unlisting the category.',
+            'error'
+          );
+        });
+    }
+  });
+}
+// name change of the category----------------------------------------
+
+
+</script>
+
+        
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+       
+<%- include('../partials/footer') %>

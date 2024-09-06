@@ -1,0 +1,170 @@
+<%- include('../partials/admheader') %>
+
+<div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: hsl(0, 10%, 92%);">
+      <div class="navbar-brand-wrapper d-flex align-items-center">
+        <a class="navbar-brand brand-logo" href="/admin/dashboard" style="text-decoration: none;">
+          <span style="font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center;">
+            <i class="mdi mdi-glasses mr-2" style="font-size: 28px;"></i>
+            <span style="margin-left: 5px;">EYEGAZE</span>
+          </span>
+        </a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item">
+            <span class="nav-link nav-profile">Akhil</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <span class="menu-title">Products</span>
+                <i class="mdi mdi-package-variant-closed menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/category">
+                <span class="menu-title">Categories</span>
+                <i class="mdi mdi-shape menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/brand">
+                <span class="menu-title">Brands</span>
+                <i class="mdi mdi-tag menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">
+                <span class="menu-title">Orders</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/offers">
+                <span class="menu-title">Offers</span>
+                <i class="mdi mdi-gift menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/users">
+                <span class="menu-title">Users</span>
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/coupons">
+                <span class="menu-title">Coupons</span>
+                <i class="mdi mdi-ticket-percent menu-icon"></i>
+              </a>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/logout">
+                <span class="menu-title">logout</span>
+                <i class="mdi mdi-image menu-icon"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+        <!-- NAV END............................................................................... -->
+        <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Add Brand</h4>
+                    <!-- Form to add new category -->
+                    <form action="addbrand" method="post" id="categoryForm">
+                      <div class="form-group">
+                        <label for="categoryName">Brand Name</label>
+                        <input type="text" class="form-control" id="categoryName" name="brandName" onkeyup="validateName()" placeholder="Enter category name" required>
+                        <div id="name-error"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="categoryStatus">Status</label>
+                        <select class="form-control" id="categoryStatus" name="brandStatus" required>
+                          <option value="Listed">Listed</option>
+                          <option value="Unlisted">Unlisted</option>
+                        </select>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add Brand</button>
+                    </form>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- validate--------------------- brands -->
+       <script>
+function validateName() {
+  let name = document.getElementById('categoryName').value;
+  let nameError = document.getElementById('name-error');
+
+  if (name.trim().length === 0) {
+    nameError.innerHTML = 'Name is required';
+    nameError.style.color = 'red';
+    return false;
+  }
+
+
+if (!name.match(/^[A-Za-z\s]+$/)) {
+    nameError.innerHTML = 'Name must contain only letters and spaces';
+    nameError.style.color = 'red';
+    return false;
+  }
+
+ nameError.innerHTML = 'Valid';
+ nameError.style.color = 'green';
+  return true;
+}
+
+document.getElementById('categoryForm').addEventListener('submit', function(event) {
+  if (!validateName()  ) {
+    event.preventDefault(); // Prevent form submission if validation fails
+  }
+});
+
+
+function checkCategoryExistence() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    // Check if 'id' parameter exists and its value is 'already_exist'
+    if (urlParams.get('id') === 'already_exist') {
+    
+      document.getElementById('name-error').textContent = "Category already exists. Please choose a different name.";
+      document.getElementById('name-error').style.color='red'
+    }
+  }
+
+  // Call the function when the page loads
+  window.onload = checkCategoryExistence;
+
+
+
+
+       </script>
+
+
+
+
+
+<%- include('../partials/footer') %>

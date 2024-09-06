@@ -1,0 +1,606 @@
+<%- include('../partials/header') %>
+<style>
+.image-container {
+    position: relative;
+}
+
+.main-image {
+    position: relative;
+    overflow: hidden;
+}
+
+#main-img {
+    width: 100%;
+    display: block;
+}
+
+.zoom-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #000;
+    display: none;
+    pointer-events: none;
+}
+
+.thumbnail-images {
+    display: flex;
+    justify-content: start;
+    margin-top: 10px;
+}
+
+.thumb {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.thumb img {
+    max-width: 100px;
+    height: auto;
+}
+</style>
+
+	<div class="colorlib-loader"></div>
+
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-7 col-md-9">
+							<div id="colorlib-logo"><a href="index.html">EYEGAZE</a></div>
+						</div>
+						
+				 </div>
+					<div class="row">
+						<div class="col-sm-12 text-left menu-1">
+							<ul>
+							    <li class="active"><a href="">Home</a></li>
+                            <li><a href="/product">shop</a></li>
+                            <li><a href="/abouts">About</a></li>
+                            <li><a href="/contacts">Contact</a></li>
+							
+									<li class="cart"><a href="/myaccount">my account</a></li>
+							
+									
+							
+								<li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sale">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8 offset-sm-2 text-center">
+							<div class="row">
+								<div class="owl-carousel2">
+									<div class="item">
+										<div class="col">
+											<h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+										</div>
+									</div>
+									<div class="item">
+										<div class="col">
+											<h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<p class="bread"><span><a href="/product">products</a></span> / <span>Product Details</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-product">
+			<div class="container">
+				<div class="row row-pb-lg product-detail-wrap">
+					<div class="col-sm-8">
+						<div class="image-container">
+							<div class="main-image">
+								<img id="main-img" src="/productimage/<%=pro.productimages[0]%>" class="img-fluid" alt="Main Image">
+								<div id="zoom-div" class="zoom-div" style="width: 200px;height: 200px;"></div>
+							</div>
+							<div class="thumbnail-images">
+								<div class="thumb" onclick="changeImage('/productimage/<%=pro.productimages[0]%>')">
+									<img src="/productimage/<%=pro.productimages[0]%>" class="img-fluid" alt="Thumbnail 1">
+								</div>
+								<div class="thumb" onclick="changeImage('/productimage/<%=pro.productimages[1]%>')">
+									<img src="/productimage/<%=pro.productimages[1]%>" class="img-fluid" alt="Thumbnail 2">
+								</div>
+								<div class="thumb" onclick="changeImage('/productimage/<%=pro.productimages[2]%>')">
+									<img src="/productimage/<%=pro.productimages[2]%>" class="img-fluid" alt="Thumbnail 3">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="product-desc">
+							<!-- Product Name -->
+							<h3>
+								<%= pro.productName%>
+							</h3>
+
+							<!-- Product Description -->
+							<p>
+								<%= pro.description%>
+								.Looking through the lenses of these spectacles, much like Alphabet Village meets Line Lane. A moment of reflection may cross your mind, but these spectacles will keep you moving forward with confidence
+							</p>
+							<!-- Product Price -->
+							<p class="price">
+								<span>RS:<%= pro.discountPrice%></span>
+							</p>
+
+							<!-- Brand, Category, and Gender -->
+							<p><strong>Brand:</strong> [<%=pro.productBrand.brandName%>]</p>
+							<p><strong>Category:</strong> [<%=pro.category.categoryName%>]</p>
+							<!-- <p ><strong>Gender:</strong> [<%=pro.gender%>]</p> -->
+
+							<% if (pro.stock<= 5) { %>
+								<span class="stock-left text-danger ml-2">Only <%= pro.stock %> in stock</span>
+							  <% } else { %>
+							
+							  <% } %>
+
+							<!-- Add to Cart and Add to Wishlist Buttons -->
+							<div class="row">
+								<div class="col-sm-12 text-center">
+									<div class="d-flex align-items-center justify-content-center">
+										
+										<!-- Quantity Input Field -->
+										<div class="quantity-container me-3">
+											<button type="button" class="btn btn-secondary btn-decrement">-</button>
+											<input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= pro.stock< 5 ?pro.stock:5 %>"/>
+											<button type="button" class="btn btn-secondary btn-increment">+</button>
+										</div>
+									
+										<!-- Add to Cart Button -->
+										<p class="addtocart mb-0">
+											<a href="javascript:void(0)" class="btn btn-primary btn-addtocart" onclick="addcart('<%= pro._id %>', document.getElementById('quantity').value)">
+												<i class="icon-shopping-cart"></i> Add to Cart
+											</a>
+										</p>
+									</div>
+									<p class="addtowishlist mt-3">
+										<a href="javascript:void(0)" class="btn btn-secondary btn-addtowishlist" onclick="addwishlist('<%=pro._id%>')">
+											<i class="icon-heart"></i> Add to Wishlist
+										</a>
+									</p>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+	</div>
+
+
+
+	<script>
+		$(document).ready(function () {
+
+			var quantitiy = 0;
+			$('.quantity-right-plus').click(function (e) {
+
+				// Stop acting like a button
+				e.preventDefault();
+				// Get the field name
+				var quantity = parseInt($('#quantity').val());
+
+				// If is not undefined
+
+				$('#quantity').val(quantity + 1);
+
+
+				// Increment
+
+			});
+
+			$('.quantity-left-minus').click(function (e) {
+				// Stop acting like a button
+				e.preventDefault();
+				// Get the field name
+				var quantity = parseInt($('#quantity').val());
+
+				// If is not undefined
+
+				// Increment
+				if (quantity > 0) {
+					$('#quantity').val(quantity - 1);
+				}
+			});
+
+		});
+	</script>
+	<style>
+		.image-container {
+			display: flex;
+		}
+
+		.main-image {
+			flex: 3;
+			margin-right: 10px;
+		}
+
+		.main-image img {
+			max-width: 100%;
+			height: auto;
+		}
+
+		.thumbnail-images {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.thumb {
+			cursor: pointer;
+			margin-bottom: 10px;
+		}
+
+		.thumb img {
+			width: 80px;
+			height: 80px;
+			object-fit: cover;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.thumb img:hover {
+			border-color: #000;
+		}
+
+		.product-images {
+			flex: 0 0 60%;
+			background-color: #f9f9f9;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.main-image {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		.main-image img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+	</style>
+
+
+
+
+	<script>
+
+// 		 function addcart(productId) {
+			
+//     fetch(`/cart/${productId}`, {
+//       method: 'POST',
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+		
+//       if (data.message === 'User not logged in') {
+//         Swal.fire({
+//           title: 'Not Logged In',
+//           text: 'You need to be logged in to add products to the cart.',
+//           icon: 'warning',
+//           confirmButtonText: 'Sign In'
+//         }).then((result) => {
+//           if (result.isConfirmed) {
+//             window.location.href = '/sign';
+//           }
+//         });
+//       } else if (data.message === 'Product not found') {
+//         Swal.fire({
+//           title: 'Error',
+//           text: 'Product not found.',
+//           icon: 'error',
+//           confirmButtonText: 'OK'
+//         });
+//       } else if (data.message === 'Product added to cart') {
+//         Swal.fire({
+//           title: 'Success',
+//           text: 'Product added to cart.',
+//           icon: 'success',
+//           confirmButtonText: 'OK'
+		   
+//         });
+//       } else {
+//         Swal.fire({
+//           title: 'Error',
+//           text: 'Something went wrong. Please try again.',
+//           icon: 'error',
+//           confirmButtonText: 'OK'
+//         });
+//       }
+//     })
+//     .catch(error => {
+     
+//       Swal.fire({
+//         title: 'Error',
+//         text: 'you are not login just sign',
+//         icon: 'error',
+//         confirmButtonText: 'OK'
+//       }).then(() => {
+//         window.location.href = '/sign';
+//       });
+//     });
+//   }
+
+
+function addwishlist(productId) {
+  fetch(`/wishlist/${productId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.redirected) {
+      window.location.href = response.url;
+      return;
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.message === 'Product not found') {
+      Swal.fire({
+        title: 'Error',
+        text: 'Product not found.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } else if (data.message === 'Product added to wishlist') {
+      Swal.fire({
+        title: 'Success',
+        text: 'Product added to wishlist.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    } else if (data.message === 'Product already in wishlist') {
+      Swal.fire({
+        title: 'Info',
+        text: 'Product already exists in your wishlist.',
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
+    } else if (data) {
+      Swal.fire({
+        title: 'Error',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Server error. Please try again later.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  });
+}
+
+
+
+
+	
+function addcart(productId,count) {
+    fetch(`/cart/${productId}/${count}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.message === 'Product not found') {
+        Swal.fire({
+          title: 'Error',
+          text: 'Product not found.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      } else if (data.message === 'Product added to cart') {
+        Swal.fire({
+          title: 'Success',
+          text: 'Product added to cart.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      } else if (data) {
+        Swal.fire({
+          title: 'Error',
+          text: data.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Server error. Please try again later.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+  }
+
+
+
+
+
+	</script>
+	<style>
+
+		.quantity-container {
+    display: flex;
+    align-items: center;
+    margin-right: 15px; /* Space between quantity and Add to Cart button */
+	margin-left: -317px;
+	margin-top: 30px;
+}
+
+.quantity-container button {
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.quantity-container input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.btn-decrement, .btn-increment {
+    font-size: 16px;
+}
+
+/* Optional: Adjust the margin between Add to Cart and Add to Wishlist buttons */
+.addtocart, .addtowishlist {
+    margin: 0; /* Remove default margin */
+}
+
+	</style>
+<script>
+	// Increment the value when button is clicked
+document.querySelector('.btn-increment').addEventListener('click', function() {
+    const quantityInput = document.getElementById('quantity');
+    const max = parseInt(quantityInput.getAttribute('max'));
+    if (parseInt(quantityInput.value) < max) {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    }
+});
+// Decrement the value when button is clicked
+document.querySelector('.btn-decrement').addEventListener('click', function() {
+    const quantityInput = document.getElementById('quantity');
+    if (parseInt(quantityInput.value) > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+});
+
+///change image function
+       
+function changeImage(src) {
+            document.getElementById('main-img').src = src;
+        }
+   
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+function changeImage(src) {
+    $('#main-img').attr('src', src);
+}
+
+$(document).ready(function() {
+    $('.main-image').mousemove(function(e) {
+        var image = $('#main-img');
+        var zoomDiv = $('#zoom-div');
+        
+        var imageOffset = image.offset();
+        var mouseX = e.pageX - imageOffset.left;
+        var mouseY = e.pageY - imageOffset.top;
+        
+        var imageWidth = image.width();
+        var imageHeight = image.height();
+        
+        var zoomX = (mouseX / imageWidth) * 100;
+        var zoomY = (mouseY / imageHeight) * 100;
+        
+        zoomDiv.css({
+            'left': mouseX - 50,
+            'top': mouseY - 50,
+            'background-image': 'url(' + image.attr('src') + ')',
+            'background-position': zoomX + '% ' + zoomY + '%',
+            'background-size': (imageWidth * 2) + 'px ' + (imageHeight * 2) + 'px'
+        });
+        
+        zoomDiv.show();
+    });
+
+    $('.main-image').mouseleave(function() {
+        $('#zoom-div').hide();
+    });
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+	<script src="/js/jquery.min.js"></script>
+	<!-- popper -->
+	<script src="/js/popper.min.js"></script>
+	<!-- bootstrap 4.1 -->
+	<script src="/js/bootstrap.min.js"></script>
+	<!-- jQuery easing -->
+	<script src="/js/jquery.easing.1.3.js"></script>
+	<!-- Waypoints -->
+	<script src="/js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="/js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="/js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/magnific-popup-options.js"></script>
+	<!-- Date Picker -->
+    <!-- Main -->
+	<script src="/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.elevatezoom/3.0.8/jquery.elevateZoom.min.js"></script>
+
+	
+	<%- include('../partials/footer') %>

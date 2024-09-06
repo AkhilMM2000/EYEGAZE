@@ -1,0 +1,338 @@
+<%- include('../partials/header') %>
+
+<style>
+  /* General Styles for the Form */
+  .card-body {
+      padding: 50px;
+      max-height: 100vh; /* Limits the height to the viewport height */
+      overflow-y: auto; /* Allows scrolling if the content exceeds the container's height */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+  }
+  
+  /* Form Header */
+  h2.text-uppercase {
+      font-weight: bold;
+      color: #333;
+  }
+  
+  /* Error Messages */
+  #name-error,
+  #mobile-error,
+  #email-error,
+  #password-erro {
+      color: red;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+  }
+  
+  /* Input Fields */
+  .form-control {
+      border-radius: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+  }
+  
+  /* Label Styles */
+  .form-label {
+      font-size: 1rem;
+      margin-left: 5px;
+      color: #666;
+  }
+  
+  /* Submit Button */
+  .btn-success {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      width: 100%;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+      .card-body {
+          margin: 0 15px; /* Adjusts margins for smaller screens */
+          padding: 20px;
+      }
+      
+      h2.text-uppercase {
+          font-size: 1.5rem;
+      }
+  
+      .btn-success {
+          font-size: 1rem;
+          padding: 8px 16px;
+      }
+  }
+  
+  /* Adjustments for very small screens */
+  @media (max-width: 576px) {
+      .card-body {
+          padding: 15px;
+      }
+  
+      h2.text-uppercase {
+          font-size: 1.3rem;
+      }
+  
+      .btn-success {
+          font-size: 0.9rem;
+          padding: 7px 14px;
+      }
+  }
+  .form-control-lg {
+    font-weight: bold; /* Makes the input text bold */
+  }
+
+  .form-label {
+    font-weight: bold; /* Makes the label text bold */
+  }
+  
+  </style>
+
+
+
+<section class="vh-100 bg-image"
+style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+ 
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+       
+        <div class="card" style="border-radius: 15px;">
+         
+          <div class="card-body p-5">
+         
+            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+           
+            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/sign"
+              class="fw-bold text-body"><u>Login here</u></a></p>
+             
+
+            <form  id="cform" >  
+
+              <div data-mdb-input-init class="form-outline mb-3">
+                <div id="name-error"></div>
+                <input type="text" id="form3Example1cg" class="form-control form-control-lg" onkeyup="validateName()" name="userName" />
+                <label class="form-label" for="form3Example1cg">User Name</label>
+              </div>
+                   
+              <div data-mdb-input-init class="form-outline mb-3">
+                <div id="mobile-error"></div>
+                <input type="text" id="form3Example3cg" class="form-control form-control-lg" onkeyup="validateMobile()" name="mobileNo"/>
+                <label class="form-label" for="form3Example3cg">Mobile no</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-3">
+                <div id="email-error"></div>
+                <input type="email" id="form3Example3cge" class="form-control form-control-lg" onkeyup="validateEmail()" name="userEmail"/>
+                <label class="form-label" for="form3Example3cg">Your Email</label>
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-3">
+                <div id="password-error"></div>
+                <input type="password" id="form3Example4cg" class="form-control form-control-lg" onkeyup="validatePassword()" name="password"/>
+                <label class="form-label" for="form3Example4cg">Password</label>
+              </div>
+
+              <div class="d-flex justify-content-center">
+           
+                  <button type="submit"" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+             
+              </div>
+            
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+ document.getElementById('cform').addEventListener('submit', async function(event) {
+  event.preventDefault(); // Prevent the default form submission
+if(!validateEmail()||!validateMobile()||!validateName()||!validatePassword()){
+  return
+}
+  // Get the form data
+  const formData = new FormData(this);
+
+  // Convert the FormData to a JSON object
+  const data = {};
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+
+  try {
+    // Send the POST request using fetch
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // SweetAlert for success
+      Swal.fire({
+        icon: 'success',
+        title: 'go to verifyotp',
+        text: result.message,
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Redirect to the OTP page
+        window.location.href = result.redirectUrl;
+      });
+    } else {
+      // SweetAlert for error
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: result.message,
+        confirmButtonText: 'OK'
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'An Error Occurred',
+      text: 'Please try again later.',
+      confirmButtonText: 'OK'
+    });
+  }
+});
+
+
+
+function validateName() {
+  let name = document.getElementById('form3Example1cg').value;
+  let nameError = document.getElementById('name-error');
+
+  if (name.trim().length === 0) {
+    nameError.innerHTML = 'Name is required';
+    nameError.style.color = 'red';
+    return false;
+  }
+
+
+if (!name.match(/^[A-Za-z\s]+$/)) {
+    nameError.innerHTML = 'Name must contain only letters and spaces';
+    nameError.style.color = 'red';
+    return false;
+  }
+
+ nameError.innerHTML = 'Valid';
+ nameError.style.color = 'green';
+  return true;
+}
+
+
+
+
+
+function validateEmail() {
+  var email = document.getElementById('form3Example3cge').value;
+  var emailError = document.getElementById('email-error');
+
+  if (email.trim().length === 0) {
+    emailError.innerHTML = 'Email is required';
+    emailError.style.color = 'red';
+    return false;
+  }
+
+  // Email validation using a simple regex
+  if (!email.match(/^\S+@\S+\.com$/)) {
+    emailError.innerHTML = 'Invalid email format';
+    emailError.style.color = 'red';
+    return false;
+  }
+
+  emailError.innerHTML = 'Valid';
+  emailError.style.color = 'green';
+  return true;
+}
+
+function validatePassword() {
+  let  password= document.getElementById('form3Example4cg').value;
+  let passError = document.getElementById('password-error');
+
+  if (password.trim().length === 0) {
+    passError.innerHTML = 'password is required';
+    passError.style.color = 'red';
+    return false;
+  }
+if(password.length<8){
+    passError.innerHTML = 'atleast 8 length need';
+    passError.style.color = 'red';
+    return false;
+
+}
+var simplePasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
+
+if (!password.match(simplePasswordRegex)) {
+  passError.innerHTML = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+  passError.style.color = 'red';
+    return false;
+}
+
+
+passError.innerHTML = 'Valid';
+ passError.style.color = 'green';
+  return true;
+}
+
+
+function validateMobile(){
+
+    let  mobile= document.getElementById("form3Example3cg").value;
+  let mobileError= document.getElementById('mobile-error');
+
+  if (mobile.trim().length === 0) {
+    mobileError.innerHTML = 'mobile number is required';
+    mobileError.style.color = 'red';
+    return false;
+  }
+
+     
+        if(mobile.length<10){
+            mobileError.innerHTML='its not valid'
+            mobileError.style.color = 'red';
+            return false;
+        }
+   
+         if(!mobile.match(/^[1-9]\d{9}$/)){
+            mobileError.innerHTML='its not valid'
+            mobileError.style.color = 'red';
+
+            return false;
+        }
+    
+        
+mobileError.innerHTML = 'Valid';
+ mobileError.style.color = 'green';
+  return true;
+
+}
+
+
+
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
+
+
+<%- include('../partials/footer') %>

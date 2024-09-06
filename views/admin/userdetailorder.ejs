@@ -1,0 +1,634 @@
+<%- include('../partials/admheader') %>
+
+
+    <style>
+        .content-wrapper {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+        }
+
+        .table th {
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 0.5em 0.75em;
+            font-weight: 500;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .bg-gradient-light {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-bottom: 2px solid #4e73df;
+            padding-bottom: 10px;
+        }
+
+        .address-content,
+        .list-unstyled {
+            font-size: 1rem;
+        }
+
+        .address-details p,
+        .list-unstyled li {
+            line-height: 1.6;
+        }
+
+        .contact-info i,
+        .card-title i {
+            width: 24px;
+            text-align: center;
+        }
+
+        .text-primary {
+            color: #4e73df !important;
+        }
+
+        .text-dark {
+            color: #2e384d !important;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        .badge-light {
+            background-color: #f8f9fa;
+            color: #2e384d;
+            font-size: 0.9rem;
+        }
+
+        .badge-info {
+            background-color: #36b9cc;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .table thead th {
+            border-top: none;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+
+        .img-thumbnail {
+            border-radius: 8px;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.4em 0.6em;
+        }
+
+        .btn-outline-primary {
+            border-color: #4e73df;
+            color: #4e73df;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #4e73df;
+            color: #fff;
+        }
+
+        .table-sm td {
+            padding: 0.5rem;
+        }
+
+        .orange-btn {
+            background-color: #FF8C00;
+            /* Dark Orange */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .orange-btn:hover {
+            background-color: #FFA500;
+            /* Orange */
+        }
+
+        .orange-btn:active {
+            background-color: #FF7F50;
+            /* Coral */
+        }
+    </style>
+
+    <div class="container-scroller">
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: hsl(0, 10%, 92%);">
+            <div class="navbar-brand-wrapper d-flex align-items-center">
+                <a class="navbar-brand brand-logo" href="/admin/dashboard" style="text-decoration: none;">
+                    <span style="font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center;">
+                        <i class="mdi mdi-glasses mr-2" style="font-size: 28px;"></i>
+                        <span style="margin-left: 5px;">EYEGAZE</span>
+                    </span>
+                </a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-end">
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item">
+                        <span class="nav-link nav-profile">Akhil</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <!-- partial:../../partials/_sidebar.html -->
+                <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                    <ul class="nav">
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard">
+                          <span class="menu-title">Dashboard</span>
+                          <i class="mdi mdi-home menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/products">
+                          <span class="menu-title">Products</span>
+                          <i class="mdi mdi-package-variant-closed menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/category">
+                          <span class="menu-title">Categories</span>
+                          <i class="mdi mdi-shape menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/brand">
+                          <span class="menu-title">Brands</span>
+                          <i class="mdi mdi-tag menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/orders">
+                          <span class="menu-title">Orders</span>
+                          <i class="mdi mdi-cart menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/sales">
+                          <span class="menu-title">sales</span>
+                          <i class="mdi mdi-cart menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/offers">
+                          <span class="menu-title">Offers</span>
+                          <i class="mdi mdi-gift menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">
+                          <span class="menu-title">Users</span>
+                          <i class="mdi mdi-account-multiple menu-icon"></i>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/coupon">
+                          <span class="menu-title">Coupons</span>
+                          <i class="mdi mdi-ticket-percent menu-icon"></i>
+                        </a>
+                      </li>
+                    
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admin/logout">
+                          <span class="menu-title">logout</span>
+                          <i class="mdi mdi-image menu-icon"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+        </div>
+    </div>
+    <!-- NAV END............................................................................... -->
+    <div class="content-wrapper py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Order Details</h2>
+            <div class="row">
+                <!-- Address Section -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary mb-3">
+                                <i class="fas fa-shipping-fast mr-2"></i>Shipping Address
+                            </h4>
+                            <address class="mb-0">
+                                <strong class="d-block text-dark mb-2" style="font-size: 1.1rem;">
+                                    <%= orderdata[0].address.addressName %>
+                                </strong>
+                                <span class="text-muted">
+                                    <%= orderdata[0].address.addressHouse %>
+                                        <%= orderdata[0].address.addressStreet %>
+                                            <%= orderdata[0].address.addressPost %>
+                                </span><br>
+                                <span class="text-muted">
+                                    <%= orderdata[0].address.addressCity %>
+                                </span><br>
+                                <span class="text-muted">
+                                    <%= orderdata[0].address.addressDistrict %>
+                                        <%= orderdata[0].address.addressState %> -
+                                            <%= orderdata[0].address.addressPin %>
+                                </span><br>
+                                <span class="d-block mt-2">
+                                    <i class="fas fa-phone-alt text-secondary mr-2"></i>
+                                    <span class="text-dark">
+                                        <%= orderdata[0].address.addressMobile %>
+                                    </span>
+                                </span>
+                                <span class="d-block mt-1">
+                                    <i class="fas fa-envelope text-secondary mr-2"></i>
+                                    <span class="text-dark">
+                                        <%=orderdata[0].address.addressEmail %>
+                                    </span>
+                                </span>
+
+                            </address>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary mb-3">
+                                <i class="fas fa-file-invoice mr-2"></i>Order Summary
+                            </h4>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2"><span class="text-muted">Order ID:</span> <strong class="text-dark">
+                                        <%= orderdata[0].orderId%>
+                                    </strong></li>
+                                <li class="mb-2"><span class="text-muted">Order Date:</span> <strong class="text-dark">
+                                        <%=orderdata[0].orderDate.toISOString().split('T')[0]%>
+                                    </strong></li>
+                                <li class="mb-2"><span class="text-muted">Payment Method:</span> <strong
+                                        class="text-dark">
+                                        <%= orderdata[0].paymentMethod%>
+                                    </strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Product Table -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <h4 class="card-title text-primary mb-4"><i class="fas fa-box-open mr-2"></i>Ordered Products</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%orderdata[0].products.forEach(item=>{%>
+                                    <tr>
+                                        <td><img src="/productimage/<%=item.productId.productimages[0]%>"
+                                                alt="Product Image" class="img-thumbnail"
+                                                style="width: 60px; height: 60px;"></td>
+                                        <td>
+                                            <%=item.productId.productName%>
+                                        </td>
+                                        <td>
+                                            <%=item.quantity%>
+                                        </td>
+                                        <td>RS:<%=item.price%>
+                                        </td>
+                                        <td>RS:<%=item.price *item.quantity %>
+                                        </td>
+                                        <td>
+                                            <div class="badge badge-success status-indicator"
+                                                data-status="<%=item.status%>">
+                                                <%=item.status%>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <% if (item.status==='Cancelled' ) { %>
+                                                <!-- Show a message or alternative text -->
+                                                <span>Status is Cancelled</span>
+                                                <% } else if(item.status==='Returned' ) { %>
+                                                    <span style="color: green;">return success</span>
+
+                                                <% } else if(item.status!=='Delivered' ) { %>
+
+                                                    <button class="btn btn-sm btn-outline-primary"
+                                                        onclick="getProductId('<%=item._id%>'),getStatus(this)"
+                                                        data-toggle="modal" data-target="#statusModal">Change
+                                                        Status</button>
+                                                    <% } else if(item.return_request===true) { %>
+
+                                                        <button class="orange-btn" data-target="#myModal"
+                                                            data-toggle="modal"
+                                                            onclick="productReturn('<%=orderdata[0].orderId%>','<%=item.productId._id%>','<%=item.return_reason%>')">showrequest</button>
+
+                                                        <% }else{ %>
+
+                                                            <span>Status is delivered</span>
+                                                            <%}%>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+                                        <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-end mt-4">
+                        <div class="col-md-5">
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="text-muted">Subtotal:</td>
+                                    <td class="text-right">RS: <%= orderdata[0].totalAmount %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Shipping:</td>
+                                    <td class="text-right">RS:0</td>
+                                </tr>
+                                <% if (orderdata[0].discountAmount > 0) { %>
+                                <tr>
+                                    <td class="text-muted">discount:</td>
+                                    <td class="text-right">RS:<%=orderdata[0].discountAmount%></td>
+                                </tr>
+                                <% } %>
+                                <tr class="border-top">
+                                    <td><strong>Total Amount:</strong></td>
+                                    <td class="text-right"><strong>RS:<%= orderdata[0].totalAmount-orderdata[0].discountAmount %></strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Change Order Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="statusForm">
+                        <div class="form-group">
+                            <label for="orderStatus">Select Status</label>
+                            <select class="form-control" id="orderStatus">
+                                <option value="Pending">Pending</option>
+                                <option value="Dispatch">Dispatch</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal for accept the request from user in the return  -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Return Reason</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="returnReason"> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="acceptReturnBtn" >Accept Return</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- for accept the return request from user -->
+    <script>
+        let orderid;
+        let product_id;
+        let reason;
+        function productReturn(a, b,c) {
+            orderid = a
+            product_id = b
+          reason=c
+                 document.getElementById('returnReason').innerText=reason
+
+                 console.log(c);
+                 
+        }
+   
+document.getElementById('acceptReturnBtn').addEventListener('click', function() {
+    // Send a fetch request to your server to process the return
+    
+    fetch('/admin/accept_return', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ order: orderid, productid: product_id})
+    })
+    .then(response => response.json())
+.then(data => {
+    if (data.success) {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Return accepted and stock updated successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            location.reload(); // Reload the page after the user clicks "OK"
+        });
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Failed to accept return.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+})
+
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while processing the return.');
+    });
+});
+
+
+    </script>
+
+
+    <!-- for change the status--------------------------------------------------------------------------------------- -->
+
+    <script>
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        let orderID = getQueryParam('orderID');
+
+
+        let productid
+        function getProductId(id) {
+
+            productid = id
+
+        }
+        let currentStatus
+        function getStatus(buttonElement) {
+            // Find the closest status-indicator div relative to the clicked button
+            const statusDiv = buttonElement.closest('tr').querySelector('.status-indicator');
+
+            // Get the status value from the data-status attribute
+            currentStatus = statusDiv.getAttribute('data-status');
+
+            // Output or use the status as needed
+            console.log("Current Status:", currentStatus);
+
+
+        }
+        
+        document.getElementById('saveStatusBtn').addEventListener('click', () => {
+            const selectedStatus = document.getElementById('orderStatus').value;
+            console.log(selectedStatus);
+            console.log(productid);
+
+            const statusHierarchy = ['Cancelled', 'Pending', 'Dispatch', 'Shipped', 'Delivered'];
+            // Check if the status change is valid
+            if (statusHierarchy.indexOf(selectedStatus) < statusHierarchy.indexOf(currentStatus)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Status Change',
+                    text: 'You cannot move the order status backward!'
+                });
+                return;
+            }
+            if (statusHierarchy.indexOf(selectedStatus) == statusHierarchy.indexOf(currentStatus)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Status Change',
+                    text: `its already ${currentStatus}`
+                });
+                return;
+            }
+
+            fetch(`/admin/detailorder`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: selectedStatus, productid, orderID })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Close the modal
+                        $('#statusModal').modal('hide');
+                        // Optionally, update the UI to reflect the new status
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Order status updated successfully!'
+                        }).then(() => {
+                            // Reload the page after the Swal modal is closed
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Update Failed',
+                            text: 'Failed to update status'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while updating the status'
+                    });
+
+                });
+        });
+
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <%- include('../partials/footer') %>

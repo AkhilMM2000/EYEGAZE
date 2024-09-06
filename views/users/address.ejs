@@ -1,0 +1,1331 @@
+<%- include('../partials/header') %>
+    <!-- css style -->
+    <style>
+        /* Modal Styling */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    background-color: #f8f9fa;
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 15px 20px;
+}
+
+.modal-footer .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.modal-footer .btn-default {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.modal-footer .btn-default:hover {
+    background-color: #5a6268;
+    border-color: #4e555b;
+}
+
+/* Input Field Styling */
+.form-control {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+    color: #495057;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+label {
+    font-weight: 600;
+    color: #495057;
+}
+
+#editAddressForm .form-group {
+    margin-bottom: 15px;
+}
+/* Error Message Styling */
+[id^="edit-error"] {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Modal Background */
+.modal.fade .modal-dialog {
+    transform: translate(0, -50%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.fade.show .modal-dialog {
+    transform: translate(0, 0);
+}
+
+        .address-box {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  margin-bottom: 20px;
+}
+
+.address-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.address-box p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.address-box p span {
+  font-weight: bold;
+  color: #333;
+}
+
+.address-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.address-actions a {
+  font-size: 14px;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.address-actions a.text-primary:hover {
+  color: #007bff !important;
+}
+
+.address-actions a.text-danger:hover {
+  color: #dc3545 !important;
+}
+        .address-box {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .address-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .address-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .address-actions a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .address-actions a:hover {
+            opacity: 0.7;
+        }
+
+        .address-actions .text-primary {
+            color: #007bff;
+        }
+
+        .address-actions .text-danger {
+            color: #dc3545;
+        }
+
+        .breadcrumbs {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            /* Padding for the breadcrumbs */
+            position: relative;
+        }
+
+        .breadcrumbs .bread {
+            text-align: left;
+            /* Left-align the breadcrumb navigation */
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .breadcrumbs h1 {
+            font-size: 48px;
+            /* Size for the heading */
+            font-weight: bold;
+            margin: 20px 0;
+            /* Margin above and below the heading */
+            text-align: center;
+            /* Center the heading */
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            /* Ensures that padding is applied correctly */
+            padding: 10px 0;
+            /* Adds padding above and below each link */
+        }
+
+        .account-section {
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            border-right: 1px solid #ddd;
+            padding-right: 15px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar ul {
+            font-size: 18px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: #007bff;
+        }
+
+        .address-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .address-actions a {
+            margin-right: 10px;
+        }
+
+        .address-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 10px;
+        }
+        .list-unstyled {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.list-unstyled li a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.list-unstyled li a:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+    transform: translateX(5px);
+}
+    </style>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <div class="colorlib-loader"></div>
+    <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+                            <div id="colorlib-logo"><a href="/home">EYEGAZE</a></div>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li class="active"><a href="/home">Home</a></li>
+                                <li><a href="/product">shop</a></li>
+                                <li><a href="/abouts">About</a></li>
+                                <li><a href="/contacts">Contact</a></li>
+                                
+                                <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- START FROM HERE ------------------------------------------------------------------------------------------------>
+
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/product">products</a></span> / <span>Address</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>MY ACCOUNT</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container account-section">
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                    <ul class="list-unstyled">
+                        <li><a href="/myaccount">Account Details</a></li>
+                        <li><a href="/orders">Orders</a></li>
+                        <li><a href="/wallet">wallet</a></li>
+                        <li><a href="/address">Addresses</a></li>
+                        <li><a href="/logout">Sign Out</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
+                            data-target="#addressModal">
+                            Add New Address
+                        </button>
+                    </div>
+                    <p>The following addresses will be used on the checkout page by default:</p>
+<!-- address start here --------------------------------------------------------------------------------------------------------start----------------------->
+                    <% data.forEach(function(address) { %>
+                        <div class="address-box">
+                            <div class="address-header">
+                                <%= address.addressName %>
+                            </div>
+                            <p>
+                                <%= address.addressHouse %>
+                                    <%= address.addressStreet %><br>
+                                        <%= address.addressPost %>, <%= address.addressCity %><br>
+                                                <%= address.addressDistrict %>, <%= address.addressState %><br>
+                                                       <span>pin:</span> <%= address.addressPin %><br>
+                                                            <%= address.addressEmail %>,
+                                                            mobile:<%=address.addressMobile%>
+                            </p>
+                            <div class="address-actions">
+                                <a href="#" class="text-primary" data-toggle="modal" onclick="editAddress('<%= JSON.stringify(address) %>'); editdata('<%= address._id %>');" data-target="#myModal">EDIT</a>
+
+
+                            
+                               <a href="#" class="text-danger" onclick="remove('<%=address._id%>')">Delete</a>
+                            </div>
+                        </div>
+                        <% }); %>
+
+<!-- address end here ------------------------------------------------------------------------------------------------------------------end--------------------------------->
+
+
+                </div>
+            </div>
+        </div>
+
+        <footer id="colorlib-footer" role="contentinfo">
+            <div class="container">
+                <div class="row row-pb-md">
+                    <div class="col footer-col colorlib-widget">
+                        <h4>About Footwear</h4>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+                            unorthographic life</p>
+                        <p>
+                        <ul class="colorlib-social-icons">
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Customer Care</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Returns/Exchange</a></li>
+                            <li><a href="#">Gift Voucher</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Special</a></li>
+                            <li><a href="#">Customer Services</a></li>
+                            <li><a href="#">Site maps</a></li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col footer-col colorlib-widget">
+                        <h4>Information</h4>
+                        <p>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">Order Tracking</a></li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>News</h4>
+                        <ul class="colorlib-footer-links">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Exhibitions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col footer-col">
+                        <h4>Contact Information</h4>
+                        <ul class="colorlib-footer-links">
+                            <li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+                            <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+                            <li><a href="#">yoursite.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copy">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <p>
+                            <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </span>
+                            <span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
+                                , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+    </div>
+    <!-- add adress modal---------------------------------------------------------------------------------------------------- -->
+
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressModalLabel">Add New Address</h5>
+                    <button id="clickbtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- form start from here ------------------------------------------------------------------------------------------- -->
+                    <form id="addressForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="addressName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="addressName" name="addressName"
+                                    onkeyup="validateName()" required>
+                                <div id="name-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="addressEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="addressEmail" name="addressEmail"
+                                    onkeyup=" validateEmail()" required>
+                                <div id="email-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="addressMobile" class="form-label">Mobile</label>
+                                <input type="text" class="form-control" id="addressMobile" name="addressMobile"
+                                    onkeyup=" validateMobile()" required>
+                                <div id="mobile-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="addressHouse" class="form-label">House/Apartment No.</label>
+                                <input type="text" class="form-control" id="addressHouse" name="addressHouse" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="addressStreet" class="form-label">Street</label>
+                                <input type="text" class="form-control" id="Street-address" name="addressStreet" onkeyup="validatestreet()"
+                                    required>
+                                    <div id="street-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="addressPost" class="form-label">Post</label>
+                                <input type="text" class="form-control" id="Post-address" name="addressPost" onkeyup="validatePost()" required>
+                                <div id="post-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="addressCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="CityAddress" name="addressCity" onkeyup="validatecity()" required>
+                                <div id="city-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="addressDistrict" class="form-label">District</label>
+                                <input type="text" class="form-control" id="Districtaddress" name="addressDistrict" onkeyup="validatedistrict()" required>
+                                <div id="district-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="addressState" class="form-label">State</label>
+                                <input type="text" class="form-control" id="State-address" name="addressState" onkeyup="validatestate()" required>
+                                <div id="state-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="addressPin" class="form-label">Pin Code </label>
+                                <input type="number" class="form-control" id="addressPin" name="addressPin" onkeyup="validatepin()"  required>
+                                <div id="pin-error"></div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Address</button>
+                    </form>
+                    <!---------------------------- form end here --------------------------------------------------------------------------------------------------->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- edit modal-------------------------------------------------------------------------------------------------------------------------------start here edit -->
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Address</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form id="editAddressForm">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="addressName">Name</label>
+                <input type="text" class="form-control" id="editName" value="" name="addressName" onkeyup="editnamevalidate()" required>
+                <div id="edit-errorname"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="addressEmail">Email</label>
+                <input type="email" class="form-control" id="editEmail" name="addressEmail" onkeyup="editemailValidate()" required>
+                <div id="edit-erroremail"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="addressMobile">Mobile</label>
+                <input type="tel" class="form-control" id="editMobile" name="addressMobile" onkeyup="editmobileValidate()" required>
+                <div id="edit-errormobile"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="addressHouse">House</label>
+                <input type="text" class="form-control" id="editHouse" name="addressHouse" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="addressStreet">Street</label>
+                <input type="text" class="form-control" id="editStreet" name="addressStreet" onkeyup="editvalidatestreet()" required>
+                <div id="edit-errorstreet"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="addressPost">Post</label>
+                <input type="text" class="form-control" id="editPost" name="addressPost" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="addressCity">City</label>
+                <input type="text" class="form-control" id="editCity" name="addressCity" onkeyup="editvalidatecity()" required>
+                <div id="edit-errorcity"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="addressDistrict">District</label>
+                <input type="text" class="form-control" id="editDistrict" name="addressDistrict" onkeyup="editdistrictValidate()" required>
+                <div id="edit-errordistrict"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="addressState">State</label>
+                <input type="text" class="form-control" id="editState" name="addressState" onkeyup="editvalidatestate()" required>
+                <div id="edit-errorstate"></div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="addressPin">PIN</label>
+                <input type="text" class="form-control" id="editPin" name="addressPin" onkeyup="editpinValidate()" required>
+                <div id="edit-errorpin"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
+<!-- edit modal-----------------------------------------------------------------------------------------------------------------------------end here edit -->
+    <script>
+        document.getElementById('addressForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (!validateName() || !validateMobile() || !validateEmail()|| !validatePost()||!validatecity()||!validatedistrict()|!validatestate()||!validatestreet()||!validatepin()) {
+                return; // Stop the function execution if validation fails
+            }
+            
+            var formData = new FormData(this);
+            const addressModal = new bootstrap.Modal(document.getElementById('addressModal'));
+
+            // Convert FormData to a plain object
+            var formObject = {};
+            formData.forEach(function (value, key) {
+                formObject[key] = value;
+            });
+
+            console.log('Sending data:', formObject);
+            console.log("hai");
+            // Send the data using Fetch API
+            fetch('/address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject) // Convert the plain object to JSON
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("successfully added");
+                        // Close the modal
+                        $('#addressModal').modal('hide');
+
+                        // Show success message and reload the page on confirmation
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Address saved successfully!',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload(); // Reload the page
+                            }
+                        });
+                    } else {
+                        // Optionally, handle the error case, like showing an error message
+                        alert('Error saving address. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An error occurred while saving the address. Please try again.',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload(); // Reload the page
+                        }
+                    });
+                    $('#addressModal').modal('hide');
+                });
+
+        });
+
+
+        //form validation below for name
+        function validateName() {
+            let name = document.getElementById('addressName').value;
+            let nameError = document.getElementById('name-error');
+
+            if (name.trim().length === 0) {
+                nameError.innerHTML = 'Name is required';
+                nameError.style.color = 'red';
+                return false;
+            }
+
+
+            if (!name.match(/^[A-Za-z\s]+$/)) {
+                nameError.innerHTML = 'Name must contain only letters and spaces';
+                nameError.style.color = 'red';
+                return false;
+            }
+
+            nameError.innerHTML = 'Valid';
+            nameError.style.color = 'green';
+            return true;
+        }
+        //form validation below for EMAIL
+
+        function validateEmail() {
+            let email = document.getElementById('addressEmail').value;
+            let emailError = document.getElementById('email-error');
+
+            if (email.trim().length === 0) {
+                emailError.innerHTML = 'Email is required';
+                emailError.style.color = 'red';
+                return false;
+            }
+
+            // Email validation using a simple regex
+            if (!email.match(/^\S+@\S+\.com$/)) {
+                emailError.innerHTML = 'Invalid email format';
+                emailError.style.color = 'red';
+                return false;
+            }
+
+            emailError.innerHTML = 'Valid';
+            emailError.style.color = 'green';
+            return true;
+        }
+
+        // ------------------------------------------------------------------form validation for mobileno------------------------------------------------------------------------------------------->
+
+        function validateMobile() {
+
+            let mobile = document.getElementById('addressMobile').value;
+            let mobileError = document.getElementById('mobile-error');
+
+            if (mobile.trim().length === 0) {
+                mobileError.innerHTML = 'mobile number is required';
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+
+            if (mobile.length < 10) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+            if (!mobile.match(/^[1-9]\d{9}$/)) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+
+                return false;
+            }
+
+
+            mobileError.innerHTML = 'Valid';
+            mobileError.style.color = 'green';
+            return true;
+
+        }
+////-----------------------------------------------------------------------------------------------validate city
+function validatecity(){
+let city=document.getElementById('CityAddress').value
+let message=document.getElementById('city-error')
+
+if (city.trim().length === 0) {
+                message.innerHTML = 'Name is required';
+                message.style.color = 'red';
+                return false;
+            }
+            if (!city.match(/^[A-Za-z\s]+$/)) {
+                message.innerHTML = 'city must contain only letters and spaces';
+                message.style.color = 'red';
+                return false;
+            }
+            message.innerHTML = 'Valid';
+            message.style.color = 'green';
+            return true;
+
+
+}
+////---------------------------------------------------------------------------------------------------------------------------validate street
+function validatestreet() {
+    let street = document.getElementById('Street-address').value;
+    let message = document.getElementById('street-error');
+
+    if (street.trim().length === 0) {
+        message.innerHTML = 'Street address is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!street.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'Street address must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+
+////---------------------------------------------------------------------------------------------------------------------------validate district
+function validatedistrict() {
+    let district = document.getElementById('Districtaddress').value;
+    let message = document.getElementById('district-error');
+
+    if (district.trim().length === 0) {
+        message.innerHTML = 'District is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!district.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'District must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+/////-----------------------------------------------------------------------------------------------------------------------------validate state
+function validatestate() {
+    let state = document.getElementById('State-address').value;
+    let message = document.getElementById('state-error');
+
+    if (state.trim().length === 0) {
+        message.innerHTML = 'State is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!state.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'State must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+//////--------------------------------------------------------------------------------------------------------------------validate post
+function validatePost() {
+    let post = document.getElementById('Post-address').value;
+    let message = document.getElementById('post-error');
+
+    if (post.trim().length === 0) {
+        message.innerHTML = 'Post is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!post.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'Post must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+function  validatepin(){
+    let mobile = document.getElementById('addressPin').value;
+            let mobileError = document.getElementById('pin-error');
+
+            if (mobile.trim().length === 0) {
+                mobileError.innerHTML = 'pin is required';
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+
+            else if (!mobile.match(/^[1-9][0-9]{5}$/)) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+
+                return false;
+            }
+
+
+            mobileError.innerHTML = 'Valid';
+            mobileError.style.color = 'green';
+            return true;
+}
+
+
+
+
+    </script>
+
+
+<!-- -----------------------------------------------------------------------------------delete address from db -->
+<script>
+function remove(addressId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`/address/delete/${addressId}`, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire(
+              'Deleted!',
+              'Your address has been deleted.',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire(
+              'Error!',
+              'There was an issue deleting your address.',
+              'error'
+            );
+          }
+        })
+        .catch(error => {
+          Swal.fire(
+            'Error!',
+            'An unexpected error occurred.',
+            'error'
+          );
+          console.error("Error:", error);
+        });
+      }
+    });
+  }
+</script>
+<!-- edit ----------------------------------------------------------------------------edit address------------------>
+
+
+<script>
+
+// -----------------------------------------------------------------------------------------------------------------------------------------edit name validate
+function editnamevalidate(){
+    let name = document.getElementById('editName').value;
+            let nameError = document.getElementById('edit-errorname');
+
+            if (name.trim().length === 0) {
+                nameError.innerHTML = 'Name is required';
+                nameError.style.color = 'red';
+                return false;
+            }
+
+
+            if (!name.match(/^[A-Za-z\s]+$/)) {
+                nameError.innerHTML = 'Name must contain only letters and spaces';
+                nameError.style.color = 'red';
+                return false;
+            }
+
+            nameError.innerHTML = 'Valid';
+            nameError.style.color = 'green';
+            return true;
+
+
+
+    
+}
+//----------------------------------------------------------------------------------------------------------------------------------------edit email validate
+
+function editemailValidate(){
+
+    let email = document.getElementById('editEmail').value;
+            let emailError = document.getElementById('edit-erroremail');
+
+            if (email.trim().length === 0) {
+                emailError.innerHTML = 'Email is required';
+                emailError.style.color = 'red';
+                return false;
+            }
+
+            // Email validation using a simple regex
+            if (!email.match(/^\S+@\S+\.com$/)) {
+                emailError.innerHTML = 'Invalid email format';
+                emailError.style.color = 'red';
+                return false;
+            }
+
+            emailError.innerHTML = 'Valid';
+            emailError.style.color = 'green';
+            return true;
+
+
+
+
+}
+//------------------------------------------------------------------------------------------------------------------edit mobileno validate
+function editmobileValidate(){
+
+    let mobile = document.getElementById('editMobile').value;
+            let mobileError = document.getElementById('edit-errormobile');
+
+            if (mobile.trim().length === 0) {
+                mobileError.innerHTML = 'mobile number is required';
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+
+            if (mobile.length < 10) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+            if (!mobile.match(/^[1-9]\d{9}$/)) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+
+                return false;
+            }
+
+
+            mobileError.innerHTML = 'Valid';
+            mobileError.style.color = 'green';
+            return true;
+
+
+
+
+}
+function  editpinValidate(){
+    let mobile = document.getElementById('editPin').value;
+            let mobileError = document.getElementById('edit-errorpin');
+
+            if (mobile.trim().length === 0) {
+                mobileError.innerHTML = 'mobile number is required';
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+
+            else if (!mobile.match(/^[1-9][0-9]{5}$/)) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+
+                return false;
+            }
+
+
+            mobileError.innerHTML = 'Valid';
+            mobileError.style.color = 'green';
+            return true;
+}
+// -----------------------------------------------------------------------------------------------------------------------------------edit district
+
+
+function editdistrictValidate(){
+    let district = document.getElementById('editDistrict').value;
+    let message = document.getElementById('edit-errordistrict');
+
+    if (district.trim().length === 0) {
+        message.innerHTML = 'District is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!district.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'District must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+
+}
+///edit state validation--------------------------------------------------------------------------------------------------------------#
+function editvalidatestate() {
+    let state = document.getElementById('editState').value;
+    let message = document.getElementById('edit-errorstate');
+
+    if (state.trim().length === 0) {
+        message.innerHTML = 'State is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!state.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'State must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+
+///edit street validation--------------------------------------------------------------------------------------------------------------#
+function editvalidatecity() {
+    let state = document.getElementById('editCity').value;
+    let message = document.getElementById('edit-errorcity');
+
+    if (state.trim().length === 0) {
+        message.innerHTML = 'State is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!state.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'State must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+
+function editvalidatestreet() {
+    let state = document.getElementById('editStreet').value;
+    let message = document.getElementById('edit-errorstreet');
+
+    if (state.trim().length === 0) {
+        message.innerHTML = 'State is required';
+        message.style.color = 'red';
+        return false;
+    }
+    if (!state.match(/^[A-Za-z\s]+$/)) {
+        message.innerHTML = 'State must contain only letters and spaces';
+        message.style.color = 'red';
+        return false;
+    }
+    message.innerHTML = 'Valid';
+    message.style.color = 'green';
+    return true;
+}
+
+
+      
+function editAddress(addressData){
+
+    const address = JSON.parse(addressData);
+      document.getElementById('editName').value = address.addressName;
+      document.getElementById('editEmail').value = address.addressEmail;
+      document.getElementById('editMobile').value = address.addressMobile;
+      document.getElementById('editHouse').value = address.addressHouse;
+      document.getElementById('editStreet').value = address.addressStreet;
+      document.getElementById('editPost').value = address.addressPost;
+      document.getElementById('editCity').value = address.addressCity;
+      document.getElementById('editDistrict').value = address.addressDistrict;
+      document.getElementById('editState').value = address.addressState;
+      document.getElementById('editPin').value = address.addressPin
+}
+
+
+let data;
+function editdata(id) {
+    data = id; 
+   
+}
+
+document.getElementById('editAddressForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+if(!editdistrictValidate()||!editemailValidate()||!editmobileValidate()||!editnamevalidate()||!editpinValidate()||!editvalidatestate()||!editvalidatecity() ||!editvalidatestreet()){
+
+    return
+}
+
+  console.log(data);
+    var formData = new FormData(this);
+
+    // Convert FormData to a plain object
+    var formObject = {};
+    formData.forEach(function (value, key) {
+        formObject[key] = value;
+    });
+
+    // Send the data using Fetch API
+    fetch(`/address/edit/${data}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formObject) // Convert the plain object to JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Close the modal
+            $('#editAddressModal').modal('hide');
+
+            // Show success message and reload the page on confirmation
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Address updated successfully!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload(); // Reload the page
+                }
+            });
+        } else {
+            // Optionally, handle the error case, like showing an error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Error updating address. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while updating the address. Please try again.',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload(); // Reload the page
+            }
+        });
+        $('#editAddressModal').modal('hide');
+    });
+});
+
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-H+K7U5CnXl1h5ywQMEtlb6g+0KNTU0ef5e8if2YrC6FUl5T5GvpyI1ORN53o+Q9p"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- popper -->
+    <script src="/js/popper.min.js"></script>
+    <!-- bootstrap 4.1 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- jQuery easing -->
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <!-- Waypoints -->
+    <script src="/js/jquery.waypoints.min.js"></script>
+    <!-- Flexslider -->
+    <script src="/js/jquery.flexslider-min.js"></script>
+    <!-- Owl carousel -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/magnific-popup-options.js"></script>
+    <!-- Date Picker -->
+    <script src="/js/bootstrap-datepicker.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="/js/jquery.stellar.min.js"></script>
+    <!-- Google Map -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
+    <script src="/js/google_map.js"></script>
+    <!-- Main -->
+    <script src="/js/main.js"></script>
+
+    <%- include('../partials/footer') %>
+
+
+
+
+

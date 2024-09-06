@@ -1,0 +1,816 @@
+<%- include('../partials/header') %>
+
+    <style>
+        #editProfileForm .form-group {
+    margin-bottom: 20px;
+}
+
+#editProfileForm label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#editProfileForm .form-control {
+    font-size: 16px;
+    color: #000;
+    background-color: #fff;
+    border: 2px solid #ced4da;
+    border-radius: 5px;
+    padding: 12px 15px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#editProfileForm .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+    outline: none;
+}
+
+#editProfileForm .form-control::placeholder {
+    color: #999;
+}
+
+#editProfileForm #name-error,
+#editProfileForm #mobile-error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#editProfileForm .btn-primary {
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#editProfileForm .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+        #myPassword .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#myPassword .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#myPassword .modal-title {
+    font-weight: 600;
+    color: #333;
+}
+
+#myPassword .modal-body {
+    padding: 30px;
+}
+
+#myPassword label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+#myPassword .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#myPassword .form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+#myPassword .btn-primary {
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#myPassword .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+#myPassword .btn-default {
+    font-weight: 500;
+    padding: 10px 20px;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#myPassword .btn-default:hover {
+    color: #495057;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+#password-error,
+#confirm-password-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+        .address-box {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .address-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .address-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .address-actions a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .address-actions a:hover {
+            opacity: 0.7;
+        }
+
+        .address-actions .text-primary {
+            color: #007bff;
+        }
+
+        .address-actions .text-danger {
+            color: #dc3545;
+        }
+
+        .breadcrumbs {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            /* Padding for the breadcrumbs */
+            position: relative;
+        }
+
+        .breadcrumbs .bread {
+            text-align: left;
+            /* Left-align the breadcrumb navigation */
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .breadcrumbs h1 {
+            font-size: 48px;
+            /* Size for the heading */
+            font-weight: bold;
+            margin: 20px 0;
+            /* Margin above and below the heading */
+            text-align: center;
+            /* Center the heading */
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            /* Ensures that padding is applied correctly */
+            padding: 10px 0;
+            /* Adds padding above and below each link */
+        }
+
+        .account-section {
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            border-right: 1px solid #ddd;
+            padding-right: 15px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar ul {
+            font-size: 18px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: #007bff;
+        }
+
+        .address-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .address-actions a {
+            margin-right: 10px;
+        }
+
+        .address-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 10px;
+        }
+
+        .badge-cancel {
+            background-color: #ff9900;
+            /* Orange color */
+            color: #fff;
+            /* Text color */
+        }
+
+        .card {
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: #333333;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border-radius: 5px;
+        }
+
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .list-unstyled {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.list-unstyled li a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.list-unstyled li a:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+    transform: translateX(5px);
+}
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="colorlib-loader"></div>
+    <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+                            <div id="colorlib-logo"><a href="index.html">EYEGAZE</a></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="/product">shop</a></li>
+                                <li><a href="/abouts">About</a></li>
+                                <li><a href="/contacts">Contact</a></li>
+
+                                <!-- <li class="cart"><a href="/sign">Login/Sign Up</a></li> -->
+                                <li class="cart dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">my account <span
+                                            class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">AKHIL manoj</a></li>
+                                        <li><a href="/address">Logout</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/product">products</a></span> / <span>Accountdetails</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>MY ACCOUNT</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container account-section">
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                    <ul class="list-unstyled">
+                        <li><a href="/myaccount">Account Details</a></li>
+                        <li><a href="/orders">Orders</a></li>
+                        <li><a href="/wallet">wallet</a></li>
+                        <li><a href="/address">Addresses</a></li>
+                        <li><a href="/logout">Sign Out</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="card shadow-sm mb-4 border-0">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4 text-primary">Account Information</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong>Username:</strong> <span id="username" class="text-muted">
+                                            <%=user.userName%>
+                                        </span></p>
+                                    <p class="mb-2"><strong>Email:</strong> <span id="email" class="text-muted">
+                                            <%=user.userEmail%>
+                                        </span></p>
+                                    <p class="mb-2"><strong>Mobile Number:</strong> <span id="mobile"
+                                            class="text-muted">
+                                            <%=user.mobileNo%>
+                                        </span></p>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                                    <button class="btn btn-outline-primary me-2" onclick="editUser('<%=JSON.stringify(user)%>')" data-toggle="modal"  data-target="#myModal" >
+                                        Edit Details
+</button>
+                                    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+                                    <button class="btn btn-outline-primary me-2" data-toggle="modal"
+                                        data-target="#myPassword">
+                                        change password
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive mt-4">
+                        <!-- Your table content here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit Profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editProfileForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="nameuser" name="username"
+                                    onkeyup="validateName()" required>
+                                <div id="name-error"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="tel" class="form-control" id="addressMobile" name="mobile"
+                                    onkeyup="validateMobile()" required>
+                                <div id="mobile-error"></div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- /// password modal-->
+
+        <div id="myPassword" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Password</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="oldPassword">Old Password</label>
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="text" class="form-control" id="userpassword" name="newPassword"
+                                    onkeyup="validatePassword()" required>
+                                <div id="password-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                    onkeyup="validatePasswords()" required>
+                                <div id="confirm-password-error"></div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="changePasswordBtn">Change
+                                Password</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <script>
+            // function for validate user name-----------------------------------------------------------------
+            function togglePasswordType() {
+                const passwordField = document.getElementById('userpassword');
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                } else {
+                    passwordField.type = 'password';
+                }
+            }
+            function validateName() {
+                var name = document.getElementById('nameuser').value;
+                var nameError = document.getElementById('name-error');
+
+                if (name.trim().length === 0) {
+                    nameError.innerHTML = 'Name is required';
+                    nameError.style.color = 'red';
+                    return false;
+                }
+
+
+                if (!name.match(/^[A-Za-z\s]+$/)) {
+                    nameError.innerHTML = 'Name must contain only letters and spaces';
+                    nameError.style.color = 'red';
+                    return false;
+                }
+
+                nameError.innerHTML = 'Valid';
+                nameError.style.color = 'green';
+                return true;
+            }
+
+            function validateMobile() {
+
+                let mobile = document.getElementById('addressMobile').value;
+                let mobileError = document.getElementById('mobile-error');
+
+                if (mobile.trim().length === 0) {
+                    mobileError.innerHTML = 'mobile number is required';
+                    mobileError.style.color = 'red';
+                    return false;
+                }
+
+
+                if (mobile.length < 10) {
+                    mobileError.innerHTML = 'its not valid'
+                    mobileError.style.color = 'red';
+                    return false;
+                }
+
+                if (!mobile.match(/^[1-9]\d{9}$/)) {
+                    mobileError.innerHTML = 'its not valid'
+                    mobileError.style.color = 'red';
+
+                    return false;
+                }
+
+
+                mobileError.innerHTML = 'Valid';
+                mobileError.style.color = 'green';
+                return true;
+
+            }
+
+            function validatePassword() {
+                var password = document.getElementById('userpassword').value;
+                var passwordError = document.getElementById('password-error');
+
+
+                if (password.length < 8) {
+                    passwordError.innerHTML = 'Password must be at least 8 characters long';
+                    passwordError.style.color = 'red';
+                    return false;
+                }
+
+                var simplePasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
+
+                if (!password.match(simplePasswordRegex)) {
+                    passwordError.innerHTML = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+                    passwordError.style.color = 'red';
+                    return false;
+                }
+
+                passwordError.innerHTML = 'Valid password';
+                passwordError.style.color = 'green';
+                return true;
+            }
+
+            function validatePasswords() {
+                var newPassword = document.getElementById('userpassword').value;
+                var confirmPassword = document.getElementById('confirmPassword').value;
+                var confirmPasswordError = document.getElementById('confirm-password-error');
+
+                if (newPassword !== confirmPassword) {
+                    confirmPasswordError.innerHTML = 'Passwords do not match';
+                    confirmPasswordError.style.color = 'red';
+                    return false;
+                }
+
+                confirmPasswordError.innerHTML = 'Passwords match';
+                confirmPasswordError.style.color = 'green';
+                return true;
+            }
+
+function editUser(data){
+    const userdata = JSON.parse(data);
+
+    document.getElementById('nameuser').value =userdata.userName;
+      document.getElementById('addressMobile').value = userdata.mobileNo;
+     
+}
+
+//change userpassword
+document.getElementById('changePasswordBtn').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default form submission
+    if (!validatePassword() || !validatePasswords()) {
+     
+        return;
+    }
+    var formData = new FormData(document.getElementById('changePasswordForm'));
+  
+    // Convert FormData to a plain object
+    var formObject = {};
+    formData.forEach(function (value, key) {
+        formObject[key] = value;
+    });
+
+    // Send the data using Fetch API
+    fetch('/password/change', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formObject) // Convert the plain object to JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Close the modal
+            $('#myPassword').modal('hide');
+
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Password changed successfully!',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            // Handle the error case
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: data.message || 'Error changing password. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+      
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while changing the password. Please try again.',
+            confirmButtonText: 'OK'
+        });
+        $('#myPassword').modal('hide');
+    });
+});
+
+//change userprofile data name and mobilenumber------------------------------------------------------------------------------------------->
+document.getElementById('saveProfileBtn').addEventListener('click', function (event) {
+    event.preventDefault();
+    // Perform validations
+    if (!validateName() || !validateMobile()) {
+        // If either validation fails, don't proceed with submission
+        return;
+    }
+
+    var formData = new FormData(document.getElementById('editProfileForm'));
+  
+    // Convert FormData to a plain object
+    var formObject = {};
+    formData.forEach(function (value, key) {
+        formObject[key] = value;
+    });
+
+    console.log(formObject);
+
+    // Send the data using Fetch API
+    fetch('/user/edit-profile', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formObject)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Close the modal
+            $('#myModal').modal('hide');
+
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Profile updated successfully!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload(); // Reload the page to reflect changes
+                }
+            });
+        } else {
+            // Handle the error case
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: data.message || 'Error updating profile. Please try again.',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while updating the profile. Please try again.',
+            confirmButtonText: 'OK'
+        });
+        $('#myModal').modal('hide');
+    });
+});
+
+</script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/js/jquery.min.js"></script>
+        <!-- popper -->
+        <script src="/js/popper.min.js"></script>
+        <!-- bootstrap 4.1 -->
+        <script src="/js/bootstrap.min.js"></script>
+        <!-- jQuery easing -->
+        <script src="/js/jquery.easing.1.3.js"></script>
+        <!-- Waypoints -->
+        <script src="/js/jquery.waypoints.min.js"></script>
+        <!-- Flexslider -->
+        <script src="/js/jquery.flexslider-min.js"></script>
+        <!-- Owl carousel -->
+        <script src="/js/owl.carousel.min.js"></script>
+        <!-- Magnific Popup -->
+        <script src="/js/jquery.magnific-popup.min.js"></script>
+        <script src="/js/magnific-popup-options.js"></script>
+        <!-- Date Picker -->
+        <!-- Main -->
+        <script src="/js/main.js"></script>
+        <%- include('../partials/footer') %>

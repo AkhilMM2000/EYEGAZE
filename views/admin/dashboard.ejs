@@ -1,0 +1,510 @@
+<%- include('../partials/admheader') %>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .card {
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        .section-title {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 200px;
+            }
+        }
+    .chart-placeholder {
+            height: 300px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .form-control-sm {
+            display: inline-block;
+            width: auto;
+            margin-left: 10px;
+        }
+        .text-right label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+   body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .chart-placeholder {
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .legend {
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .list-group-item {
+            background-color: #ffffff;
+            border: none;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+        .list-group-item .badge {
+            font-size: 0.9rem;
+            font-weight: bold;
+            background-color: #007bff;
+        }
+    .chart-container {
+        height: 300px;
+        position: relative;
+    }
+    .chart-placeholder {
+        width: 100%;
+        height: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: italic;
+        color: #6c757d;
+    }
+    .legend {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 0 10px;
+    }
+    .legend-color {
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+    }
+    
+</style>
+  
+<div class="container-scroller">
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: hsl(0, 10%, 92%);">
+    <div class="navbar-brand-wrapper d-flex align-items-center">
+      <a class="navbar-brand brand-logo" href="/admin/dashboard" style="text-decoration: none;">
+        <span style="font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center;">
+          <i class="mdi mdi-glasses mr-2" style="font-size: 28px;"></i>
+          <span style="margin-left: 5px;">EYEGAZE</span>
+        </span>
+      </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item">
+          <span class="nav-link nav-profile">Akhil</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <div class="row row-offcanvas row-offcanvas-right">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/dashboard">
+              <span class="menu-title">Dashboard</span>
+              <i class="mdi mdi-home menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/products">
+              <span class="menu-title">Products</span>
+              <i class="mdi mdi-package-variant-closed menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/category">
+              <span class="menu-title">Categories</span>
+              <i class="mdi mdi-shape menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/brand">
+              <span class="menu-title">Brands</span>
+              <i class="mdi mdi-tag menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/orders">
+              <span class="menu-title">Orders</span>
+              <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/sales">
+              <span class="menu-title">sales</span>
+              <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/offers">
+              <span class="menu-title">Offers</span>
+              <i class="mdi mdi-gift menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/users">
+              <span class="menu-title">Users</span>
+              <i class="mdi mdi-account-multiple menu-icon"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/coupon">
+              <span class="menu-title">Coupons</span>
+              <i class="mdi mdi-ticket-percent menu-icon"></i>
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/logout">
+              <span class="menu-title">logout</span>
+              <i class="mdi mdi-image menu-icon"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+        <!-- partial -->
+        <div class="container mt-4">
+
+          <!-- Adjust the offset to push the content to the right -->
+          <div class="row">
+            <div class="col-md-10 offset-md-2">
+              
+              <!-- Time Frame Selection -->
+              <div class="row mb-3">
+                <div class="col-md-6 offset-md-6 text-end">
+                  <label for="timeFrame" class="me-2">Time Frame:</label>
+                  <select id="timeFrame" class="form-select-sm">
+                    <option value="Yearly">Yearly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly">Weekly</option>
+                  </select>
+                </div>
+              </div>
+        
+              <!-- Donut Chart for Order Status -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Order Status Overview</h5>
+                      <div class="chart-container">
+                        <div class="chart-placeholder">
+                          <canvas id="orderStatusChart"></canvas>
+                        </div>
+                      </div>
+                      <div class="order-status-legend">
+                        <div class="legend-item">
+                          <div class="legend-color" style="background-color: #4bc0c0;"></div>
+                          <span>Delivered</span>
+                        </div>
+                        <div class="legend-item">
+                          <div class="legend-color" style="background-color: #ff6384;"></div>
+                          <span>Cancelled</span>
+                        </div>
+                        <div class="legend-item">
+                          <div class="legend-color" style="background-color: #ffce56;"></div>
+                          <span>Returned</span>
+                        </div>
+                      </div>
+                      <div class="text-center mt-3">
+                        <strong>Total Orders status: </strong><span>7</span>
+                      </div>
+                      <div class="text-center mt-3">
+                        <strong>Total number of orders: <%= count %></strong><span></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+                <!-- Line Chart for Sales Over Time -->
+                <div class="col-md-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Sales Over Time</h5>
+                      <div class="chart-container">
+                        <div class="chart-placeholder">
+                          <canvas id="salesOverTimeChart"></canvas>
+                        </div>
+                      </div>
+                      <div class="sales-legend">
+                        <div class="legend-item">
+                          <div class="legend-color" style="background-color: rgba(75, 192, 192, 0.8);"></div>
+                          <span id="timeframsales"></span>
+                        </div>
+                      </div>
+                      <div class="text-center mt-3">
+                        <strong>Total Sales: </strong><span id="totalSales">rs0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- New Section for Top Selling Categories, Brands, and Products -->
+              <div class="row">
+                <div class="col-md-4 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5>Best-Selling Categories</h5>
+                      <ul class="list-group">
+                        <% bestCategories.forEach(category => { %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= category.categoryName %>
+                            <span class="badge badge-primary"><%= category.totalSold %></span>
+                          </li>
+                        <% }); %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="col-md-4 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5>Best-Selling Brands</h5>
+                      <ul class="list-group">
+                        <% bestBrands.forEach(brand => { %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= brand.brandName %>
+                            <span class="badge badge-primary"><%= brand.totalSold %></span>
+                          </li>
+                        <% }); %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="col-md-4 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="section-title">Top Selling Products</h5>
+                      <ul class="list-group">
+                        <% topProducts.forEach(product => { %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= product.productName %>
+                            <span class="badge badge-primary"><%= product.price %></span>
+                          </li>
+                        <% }) %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('salesOverTimeChart').getContext('2d');
+    const salesData = JSON.parse('<%- salesData %>');
+    const timeframe = '<%- timeframe %>';
+
+
+
+    const labels = salesData.map(item => item._id);
+    const data = salesData.map(item => item.totalSales);
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Revenue',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Revenue (RS)'
+                    },
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return '₹' + value.toLocaleString('en-IN');
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: timeframe === 'weekly' ? 'Date' : 'Month'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: `Revenue Over Time (${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)})`
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += '₹' + context.parsed.y.toLocaleString('en-IN');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Update total revenue
+    const totalRevenue = salesData.reduce((sum, item) => sum + item.totalSales, 0);
+    document.getElementById('totalSales').textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+    
+    // Update legend
+    document.getElementById('timeframsales').textContent = `${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)} Revenue`;
+});
+
+// Add event listener for timeframe select
+document.getElementById('timeFrame').addEventListener('change', function() {
+    window.location.href = `/admin/dashboard?timeframe=${this.value}`;
+});
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('orderStatusChart').getContext('2d');
+  const orderStatusChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: ['Delivered', 'Cancelled', 'Returned'],
+          datasets: [{
+              data: [
+                 '<%= statusData.delivered %>', 
+                  '<%= statusData.cancelled %>', 
+                  '<%= statusData.returned %>'
+              ],
+              backgroundColor: ['#4bc0c0', '#ff6384', '#ffce56'],
+              hoverBackgroundColor: ['#4bc0c0', '#ff6384', '#ffce56']
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: {
+                  display: false,
+              }
+          }
+      }
+  });
+
+  document.querySelector('.text-center span').textContent = 
+     ' <%= statusData.delivered + statusData.cancelled + statusData.returned %>';
+</script>
+
+<script>document.getElementById('timeFrame').addEventListener('change', function() {
+  const selectedValue = this.value;
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('timeframe', selectedValue);
+  window.history.pushState({}, '', currentUrl);
+});
+
+// Set initial value from URL if present
+window.addEventListener('load', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const timeframeParam = urlParams.get('timeframe');
+  if (timeframeParam) {
+      document.getElementById('timeFrame').value = timeframeParam;
+  }
+});</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<%- include('../partials/footer') %>
+
+

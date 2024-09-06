@@ -1,0 +1,590 @@
+<%- include('../partials/header') %>
+
+    <style>
+        .address-box {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .address-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .address-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .address-actions a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .address-actions a:hover {
+            opacity: 0.7;
+        }
+
+        .address-actions .text-primary {
+            color: #007bff;
+        }
+
+        .address-actions .text-danger {
+            color: #dc3545;
+        }
+
+        .breadcrumbs {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            /* Padding for the breadcrumbs */
+            position: relative;
+        }
+
+        .breadcrumbs .bread {
+            text-align: left;
+            /* Left-align the breadcrumb navigation */
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .breadcrumbs h1 {
+            font-size: 48px;
+            /* Size for the heading */
+            font-weight: bold;
+            margin: 20px 0;
+            /* Margin above and below the heading */
+            text-align: center;
+            /* Center the heading */
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar ul li a {
+            display: block;
+            /* Ensures that padding is applied correctly */
+            padding: 10px 0;
+            /* Adds padding above and below each link */
+        }
+
+        .account-section {
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            border-right: 1px solid #ddd;
+            padding-right: 15px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar ul {
+            font-size: 18px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            /* Adds space between each list item */
+        }
+
+        .sidebar a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: #007bff;
+        }
+
+        .address-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .address-actions a {
+            margin-right: 10px;
+        }
+
+        .address-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 10px;
+        }
+
+        .badge-cancel {
+            background-color: #ff9900;
+            /* Orange color */
+            color: #fff;
+            /* Text color */
+        }
+        .list-unstyled {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+.list-unstyled li a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.list-unstyled li a:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+    transform: translateX(5px);
+}
+
+        .message span {
+            color: #ff6347;
+            font-weight: bold;
+        }
+        .messageone span{
+            color: #470875;
+            font-weight: bold;
+        }
+        .first{
+            color: #8d1c85;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="colorlib-loader"></div>
+    <div id="page">
+        <nav class="colorlib-nav" role="navigation">
+            <div class="top-menu">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-9">
+                            <div id="colorlib-logo"><a href="index.html">EYEGAZE</a></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-left menu-1">
+                            <ul>
+                                <li class="active"><a href="">Home</a></li>
+                                <li><a href="/product">shop</a></li>
+                                <li><a href="/abouts">About</a></li>
+                                <li><a href="/contacts">Contact</a></li>
+
+                                <!-- <li class="cart"><a href="/sign">Login/Sign Up</a></li> -->
+                                <li class="cart dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">my account <span
+                                            class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">AKHIL manoj</a></li>
+                                        <li><a href="/address">Logout</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sale">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <div class="row">
+                                <div class="owl-carousel2">
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="col">
+                                            <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/product">products</a></span> / <span>ORDERS</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h1>MY ACCOUNT</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container account-section">
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                    <ul class="list-unstyled">
+                        <li><a href="/myaccount">Account Details</a></li>
+                        <li><a href="/orders">Orders</a></li>
+                        <li><a href="/wallet">wallet</a></li>
+                        <li><a href="/address">Addresses</a></li>
+                        <li><a href="/logout">Sign Out</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>Your Orders</h4>
+                     
+                        <a href="/product"class="btn btn-outline-primary">Place New Order</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Product Image</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                   <!-- New Invoice Column -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order.forEach(item => { %>
+                                    <% item.products.forEach(array => { %>
+                                        <tr>
+                                            <td>
+                                                <a href="/detailorder?orderId=<%= item.orderId %>" class="order-link">
+                                                    <%= item.orderId %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <img src="/productimage/<%= array.productId.productimages[0] %>"
+                                                     alt="Product" class="img-thumbnail"
+                                                     style="width: 50px; height: 50px;">
+                                            </td>
+                                            <td>
+                                                <%= array.quantity %>
+                                            </td>
+                                            <td>&#8377;<%= array.price * array.quantity %></td>
+                                            <td>
+                                                <% if (array.status === 'Pending' || array.status === 'Dispatch' ||
+                                                       array.status === 'Shipped' || array.status === 'Cancelled') { %>
+                                                    <span class="badge badge-danger">
+                                                        <%= array.status %>
+                                                    </span>
+                                                <% } else if (array.status === 'Delivered') { %>
+                                                    <span class="badge badge-success">Delivered</span>
+                                                <% } else if (array.status === 'Returned') { %>
+                                                    <span class="badge badge-cancel"><%= array.status %></span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <% if (item.paymentStatus === 'Failed') { %>
+                                                    <a href="/detailorder?orderId=<%= item.orderId %>" class="btn btn-sm btn-warning">
+                                                        Retry
+                                                    </a>  
+                                                <% } else if (array.status === 'Cancelled') { %>
+                                                    <div class="first">
+                                                        <span>Order Cancelled</span>
+                                                    </div>
+                                                <% } else if (array.status === 'Delivered' && array.return_request === false) { %>
+                                                    <button class="btn btn-sm btn-success" data-target="#myModal" data-toggle="modal" onclick="productReturn('<%= item.orderId %>','<%= array.productId._id %>')">Return</button>
+                                                <% } else if (array.status !== 'Returned' && array.status !== 'Delivered') { %>
+                                                    <button class="btn btn-sm btn-danger" onclick="cancelOrder('<%= item.orderId %>','<%= array.productId._id %>')">Cancel</button>
+                                                <% } else if (array.status === 'Returned') { %>
+                                                    <div class="messageone">
+                                                        <span>Return Accepted</span>
+                                                    </div>
+                                                <% } else if (array.return_request === true) { %>
+                                                    <div class="message">
+                                                        <span>Requested</span>
+                                                    </div>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <% if (array.status === 'Delivered') { %>
+                                                    <button onclick="downloadInvoice('<%= item.orderId %>', '<%= array.productId._id %>')" class="btn btn-sm btn-primary">
+                                                        Invoice
+                                                    </button>
+                                                    
+                                                    <% } %>
+                                                
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <% if (hasPreviousPage) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                            </li>
+                            <% } %>
+
+                                <% for (let i=1; i <=totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= i %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+
+                                        <% if (hasNextPage) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                                            </li>
+                                            <% } %>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+
+        <tbody>
+            <!-- Your existing table body code here -->
+        </tbody>
+
+<!-- modal for cancel reason ----------------------------------------------------------------->
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <div class="modal-header" style="background-color: #f8f9fa; border-bottom: none; padding: 20px;">
+          <h4 class="modal-title" style="font-weight: 700; color: #333;">Return Product</h4>
+          <!-- <button type="button" class="close" data-dismiss="modal" style="font-size: 28px;">&times;</button> -->
+        </div>
+        <div class="modal-body" style="padding: 20px;">
+          <form id="returnProductForm">
+            <div class="form-group">
+                <label for="reason" style="font-weight: 700; font-size: 18px; color: #333;">Reason for Return:</label>
+                <textarea class="form-control" id="reason" name="reason"  rows="4" 
+                          placeholder="Enter the reason for returning the product" required 
+                          style="border: 2px solid #bbb; border-radius: 8px; padding: 12px; 
+                                 font-size: 16px; color: #333; background-color: #f9f9f9;"></textarea>
+              </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" 
+                    style="background-color: #007bff; border: none; border-radius: 8px; 
+                           font-weight: 600; margin-top: 20px; padding: 12px;">
+              Submit Return Request
+            </button>
+          </form>
+        </div>
+        <div class="modal-footer" style="border-top: none; padding: 0 20px 20px;">
+          <button type="button" class="btn btn-default" data-dismiss="modal" 
+                  style="background-color: #f8f9fa; border: 2px solid #ddd; 
+                         border-radius: 8px; color: #333; font-weight: 600; padding: 10px 20px;">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+        <script>
+
+
+// -----------------here below function for invoicedownload 
+
+function downloadInvoice(orderId, productId) {
+    fetch('/order/invoice', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId, productId }),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.blob();
+        }
+        throw new Error('Failed to download invoice');
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `Invoice-${orderId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+///pdf download end here-------------------------------------------------------------------------------------------------------------------
+
+let orderid;
+let productid;
+
+function productReturn(order,product){
+     orderid=order
+    productid=product
+    console.log(orderid,productid);
+    
+}
+document.getElementById('returnProductForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting normally
+    
+    const reason = document.getElementById('reason').value;
+   
+   
+    fetch('/return-product', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reason: reason ,order:orderid,product:productid})
+    })
+    .then(response => response.json())
+    .then(data => {
+          if (data.success) {
+            Swal.fire(
+              'Cancelled',
+              'return requested succesfully successfully.',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire(
+              'Error!',
+              'There was a problem request for return order.',
+              'error'
+            );
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire(
+            'Error!',
+            `There was a problem for your return`,
+            'error'
+          );
+        });
+    
+    });
+
+//below function for cancell order-------------------------------------------------------------------------------------------------->
+
+         function cancelOrder(orderid, productid) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to cancel this order? This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, cancel the order',
+    cancelButtonText: 'No, keep the order',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/cancelorder`, {
+        method: 'PATCH',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({ orderid,productid})
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire(
+              'Cancelled',
+              'The order has been cancelled successfully.',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire(
+              'Error!',
+              'There was a problem cancelling the order.',
+              'error'
+            );
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire(
+            'Error!',
+            `There was a problem cancelling the order.${error.message}`,
+            'error'
+          );
+        });
+    }
+  });
+}
+
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.min.js"></script>
+        <!-- popper -->
+        <script src="/js/popper.min.js"></script>
+        <!-- bootstrap 4.1 -->
+        <script src="/js/bootstrap.min.js"></script>
+        <!-- jQuery easing -->
+        <script src="/js/jquery.easing.1.3.js"></script>
+        <!-- Waypoints -->
+        <script src="/js/jquery.waypoints.min.js"></script>
+        <!-- Flexslider -->
+        <script src="/js/jquery.flexslider-min.js"></script>
+        <!-- Owl carousel -->
+        <script src="/js/owl.carousel.min.js"></script>
+        <!-- Magnific Popup -->
+        <script src="/js/jquery.magnific-popup.min.js"></script>
+        <script src="/js/magnific-popup-options.js"></script>
+        <!-- Date Picker -->
+        <!-- Main -->
+        <script src="/js/main.js"></script>
+        <%- include('../partials/footer') %>

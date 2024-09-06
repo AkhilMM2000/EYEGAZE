@@ -1,0 +1,169 @@
+<%- include('../partials/admheader') %>
+
+<div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: hsl(0, 10%, 92%);">
+      <div class="navbar-brand-wrapper d-flex align-items-center">
+        <a class="navbar-brand brand-logo" href="/admin/dashboard" style="text-decoration: none;">
+          <span style="font-size: 24px; font-weight: bold; color: #333; display: flex; align-items: center;">
+            <i class="mdi mdi-glasses mr-2" style="font-size: 28px;"></i>
+            <span style="margin-left: 5px;">EYEGAZE</span>
+          </span>
+        </a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item">
+            <span class="nav-link nav-profile">Akhil</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <span class="menu-title">Products</span>
+                <i class="mdi mdi-package-variant-closed menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/category">
+                <span class="menu-title">Categories</span>
+                <i class="mdi mdi-shape menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/brand">
+                <span class="menu-title">Brands</span>
+                <i class="mdi mdi-tag menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">
+                <span class="menu-title">Orders</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/sales">
+                <span class="menu-title">sales</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/offers">
+                <span class="menu-title">Offers</span>
+                <i class="mdi mdi-gift menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/users">
+                <span class="menu-title">Users</span>
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/coupon">
+                <span class="menu-title">Coupons</span>
+                <i class="mdi mdi-ticket-percent menu-icon"></i>
+              </a>
+            </li>
+      
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/logout">
+                <span class="menu-title">logout</span>
+                <i class="mdi mdi-image menu-icon"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+        <!-- NAV END............................................................................... -->
+        <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h4 class="card-title">Your Orders</h4>
+                       </div>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Username</th>
+                            <th>Payment Method</th>
+                            <th>Status</th>
+                            <th>View</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <% order.forEach(item => { %>   
+                                <% item.products.forEach(array => { %>
+                          <tr>
+                         
+                            <td><%=item.orderId%></td>
+                            <td><%=item.userId.userName%></td>
+                            <td><%=item.paymentMethod%></td>
+
+                            <td><span class="badge badge-warning"><%=array.status%></span></td>
+                          
+                            <td>
+                                <a href="/admin/detailorder?orderID=<%=item.orderId%>" class="btn btn-sm btn-info" role="button">View Details</a>
+
+                            </td>
+                          </tr>
+                          <%})%>
+                          <%})%>
+                        
+                          <!-- Add more rows as needed -->
+                        </tbody>
+                      </table>
+                    </div>
+                     <!-- Pagination -->
+                     <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                    
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                    
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+       
+<%- include('../partials/footer') %>
