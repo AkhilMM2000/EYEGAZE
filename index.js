@@ -34,6 +34,7 @@ app.use('/admin',adminRoute)
 
 //port for host
 const port=process.env.port||3500
+console.log(port);
 
 app.listen(port,()=>{
     console.log(`server running http://localhost:${port} `);
