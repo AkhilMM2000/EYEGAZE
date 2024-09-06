@@ -133,7 +133,12 @@ let otpDurationSeconds = 60; // 1 minute
                 otpDurationSeconds = 60; // Reset the timer duration
                 startOTPTimer(); // Restart the timer
                 resendOTPBtn.style.display = 'none'; // Hide the Resend OTP button
-                alert('OTP resent successfully.');
+                Swal.fire({
+        icon: 'success',
+        title: 'OTP Resent',
+        text: 'OTP has been resent successfully!',
+        confirmButtonText: 'OK'
+    });
             } else {
                 console.error('Error resending OTP:', response.statusText);
             }
