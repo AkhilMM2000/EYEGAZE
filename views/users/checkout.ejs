@@ -765,9 +765,25 @@ font-weight: bold;
 document.getElementById('walletplaceOrderBtn').addEventListener('click', async function (event) {
     event.preventDefault();
 
-    const paymentMethod = document.querySelector('input[name="optradio"]:checked').value;
-    const addressId = document.querySelector('input[name="address"]:checked').value;
+    const paymentMethodElement = document.querySelector('input[name="optradio"]:checked');
+    const addressIdElement = document.querySelector('input[name="address"]:checked');
     const coupon_code = document.getElementById('coupon-code').value;
+
+    // Check if both payment method and address are selected
+    if (!paymentMethodElement || !addressIdElement) {
+        // Use SweetAlert to show alert
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Information',
+            text: 'Please select both a payment method and an address before placing the order.',
+            confirmButtonText: 'OK'
+        });
+        return; // Stop execution if either is missing
+    }
+
+    const paymentMethod = paymentMethodElement.value;
+    const addressId = addressIdElement.value;
+
 
     try {
         const response = await fetch('/walletplace-order', {
@@ -1443,10 +1459,26 @@ document.getElementById('removeCouponBtn').addEventListener('click', function() 
     document.getElementById('placeOrderBtn').addEventListener('click', async function (event) {
   event.preventDefault();
 
-  const paymentMethod = document.querySelector('input[name="optradio"]:checked').value;
-  const addressId = document.querySelector('input[name="address"]:checked').value;
-  const coupon_code = document.getElementById('coupon-code').value;
 
+
+const paymentMethodElement = document.querySelector('input[name="optradio"]:checked');
+    const addressIdElement = document.querySelector('input[name="address"]:checked');
+    const coupon_code = document.getElementById('coupon-code').value;
+
+    // Check if both payment method and address are selected
+    if (!paymentMethodElement || !addressIdElement) {
+        // Use SweetAlert to show alert
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Information',
+            text: 'Please select both a payment method and an address before placing the order.',
+            confirmButtonText: 'OK'
+        });
+        return; // Stop execution if either is missing
+    }
+
+    const paymentMethod = paymentMethodElement.value;
+    const addressId = addressIdElement.value;
   if (paymentMethod === 'razorpay') {
     try {
       const razorpayOrderResponse = await fetch('/place-order', {

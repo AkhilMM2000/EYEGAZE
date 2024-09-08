@@ -228,6 +228,7 @@ const listproduct = async (req, res) => {
     const products = await product.find()
       .populate('productBrand', 'brandName')
       .populate('category', 'categoryName')
+      .sort({ Date: -1 }) 
        .skip(skip)
        .limit(limit)
 
