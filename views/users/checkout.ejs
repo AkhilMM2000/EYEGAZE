@@ -494,8 +494,10 @@ font-weight: bold;
                                                 <% if (cart && cart.products.length > 0) { %>
                                                     <% cart.products.forEach(item => { %>
                                                         <li>
-                                                            <span><%= item.quantity %> x <%= item.product.productName %></span>
-                                                            <span>&#8377;<%= item.discountPrice ? item.discountPrice.toFixed(2)*item.quantity : item.product.price.toFixed(2)*item.quantity %></span>
+                                                            <% const displayQuantity = Math.min(item.quantity, item.product.stock,5); %>
+        <span><%= displayQuantity %> x <%= item.product.productName %></span>
+                                                          
+                                                            <span>&#8377;<%= item.discountPrice ? item.discountPrice.toFixed(2)*displayQuantity : item.product.price.toFixed(2)*displayQuantity%></span>
                                                         </li>
                                                     <% }) %>
                                                

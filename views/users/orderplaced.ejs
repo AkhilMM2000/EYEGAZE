@@ -2,7 +2,71 @@
 
 <style>
 
-    
+.order-details {
+        max-width: 1000px;
+        margin: auto;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .text-primary {
+        color: #007bff !important;
+    }
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+      .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+    .order-details {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .card {
+        border: none;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+    .table th {
+        background-color: #f1f3f5;
+    }
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
+    .text-primary {
+        color: #007bff !important;
+    }
+    .btn-retry {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-radius: 0.2rem;
+    }
+    .btn-retry:hover {
+        background-color: #c82333;
+    }
 @keyframes activateStep {
     from { background-color: initial; }
     to { background-color: #28a745; /* Green color */ }
@@ -159,78 +223,130 @@
                 </div>
     <!------------------------------------------------------------------------------ ejs content start form here------------------------------------------------------------------------------------------------------------------          -->
                 <!-- Order Details Section -->
-                <div class="order-details mt-4">
-                    <h3 class="mb-4">Order Details</h3>
-                    
+                <div class="order-details mt-5">
+                   
                     <div class="row">
                         <!-- Address Section -->
-                        <div class="col-md-6">
-                            <div class="address-details p-3 border rounded">
-                                <h4 class="mb-3">Shipping Address</h4>
-                                <address>
-                                    <strong><%=addressdata. addressName%></strong><br>
-                                    <%=addressdata. addressHouse%> <%=addressdata. addressStreet%>,<%=addressdata. addressPost%><br>
-                                     <%=addressdata. addressCity%><br>
-                                    <%=addressdata. addressDistrict%>, <%=addressdata. addressState%> - <%=addressdata. addressPin%><br>
-                                    <i class="fas fa-phone-alt"></i> <%=addressdata. addressMobile%><br>
-                                    <i class="fas fa-envelope"></i> <%=addressdata. addressEmail%>
-                                </address>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h4 class="mb-0"><i class="fas fa-shipping-fast me-2"></i>Shipping Address</h4>
+                                </div>
+                                <div class="card-body">
+                                    <address>
+                                        <strong class="d-block mb-2"><%= addressdata.addressName %></strong>
+                                        <%= addressdata.addressHouse %> <%= addressdata.addressStreet %>, <%= addressdata.addressPost %><br>
+                                        <%= addressdata.addressCity %><br>
+                                        <%= addressdata.addressDistrict %>, <%= addressdata.addressState %> - <%= addressdata.addressPin %><br>
+                                        <i class="fas fa-phone-alt text-secondary me-2"></i> <%= addressdata.addressMobile %><br>
+                                        <i class="fas fa-envelope text-secondary me-2"></i> <%= addressdata.addressEmail %>
+                                    </address>
+                                </div>
                             </div>
                         </div>
-                
+            
                         <!-- Order Summary -->
-                        <div class="col-md-6">
-                            <div class="order-summary p-3 border rounded">
-                                <h4 class="mb-3">Order Summary</h4>
-                                <ul class="list-unstyled">
-                                    <li>Order ID: <strong>#<%=order.orderId%></strong></li>
-                                    <li>Order Date: <strong><%=order.orderDate.toISOString().split('T')[0]%></strong></li>
-                                    <li>Payment Method: <strong><%=order.  paymentMethod%></strong></li>
-                                </ul>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h4 class="mb-0"><i class="fas fa-file-invoice me-2"></i>Order Summary</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2 d-flex justify-content-between align-items-center">
+                                            <span class="text-muted">Order ID:</span>
+                                            <strong>#<%= order.orderId %></strong>
+                                        </li>
+                                        <li class="mb-2 d-flex justify-content-between align-items-center">
+                                            <span class="text-muted">Order Date:</span>
+                                            <strong><%= order.orderDate.toISOString().split('T')[0] %></strong>
+                                        </li>
+                                        <li class="mb-2 d-flex justify-content-between align-items-center">
+                                            <span class="text-muted">Payment Method:</span>
+                                            <strong><%= order.paymentMethod %></strong>
+                                        </li>
+                                        <li class="mb-2 d-flex justify-content-between align-items-center">
+                                            <span class="text-muted">Payment Status:</span>
+                                            <% if (order.paymentStatus === 'Failed') { %>
+                                                <span class="text-danger"><strong>Failed</strong></span>
+                                            <% } else { %>
+                                                <span class="text-success"><strong>Successful</strong></span>
+                                            <% } %>
+                                        </li>
+                                        <% if (order.paymentStatus === 'Failed') { %>
+                                            <li class="mt-3 text-center">
+                                                <button  class="btn btn-danger btn-sm" onclick="retry_payment('<%= order.orderId %>')">
+                                                    <i class="fas fa-sync-alt me-1"></i> Retry Payment
+                                                </button>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                
+            
                     <!-- Product Table -->
-                    <div class="product-details mt-4">
-                        <h4 class="mb-3">Ordered Products</h4>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  <%order.products.forEach(an =>{%>
-                                    <tr>
-                                        <td><img src="/productimage/<%=an.productId.productimages[0]%>" alt="Product 1" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
-                                        <td><%=an.productId.productName%></td>
-                                        <td><%=an.quantity%></td>
-                                        <td><%=an.price%></td>
-                                        <td><%= an.quantity * an.price %></td>
-                                    </tr>
-                                <%})%>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
-                                        <td><strong>&#8377;<%=order.totalAmount%></strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" class="text-right"><strong>Shipping:</strong></td>
-                                        <td><strong>&#8377;00</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" class="text-right"><strong>Total Amount:</strong></td>
-                                        <td><strong>&#8377;<%=order.totalAmount%></strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                    <div class="card mt-5">
+                        <div class="card-header">
+                            <h4 class="mb-0"><i class="fas fa-box-open me-2"></i>Ordered Products</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                            <th>discount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.products.forEach(an => { %>
+                                            <tr>
+                                                <td><img src="/productimage/<%= an.productId.productimages[0] %>" alt="Product Image" class="product-img rounded"></td>
+                                                <td><%= an.productId.productName %></td>
+                                                <td><%= an.quantity %></td>
+                                                <td>&#8377;<%= an.price.toFixed(2) %></td>
+                                                <td>&#8377;<%= (an.quantity * an.price).toFixed(2) %></td>
+                                                <% if (an.product_discount> 0) { %>
+                                                <td><%=an.product_discount%></td>
+                                                <% } else { %>
+                                                    <td>00</td>
+                                                    <% } %> 
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td colspan="4" class="text-end"><strong>Subtotal:</strong></td>
+                                            <td><strong>&#8377;<%= order.totalAmount.toFixed(2) %></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-end"><strong>Shipping:</strong></td>
+                                            <td><strong>&#8377;0.00</strong></td>
+                                        </tr>
+                                        <% if (order.discountAmount > 0) { %>
+                                            <tr>
+                                                <td colspan="4" class="text-end"><strong>Discount:</strong></td>
+                                                <td><strong>&#8377;<%= order.discountAmount.toFixed(2) %></strong></td>
+                                            </tr>
+                                            <tr class="table-primary">
+                                                <td colspan="4" class="text-end"><strong>Total Amount:</strong></td>
+                                                <td><strong>&#8377;<%= (order.totalAmount - order.discountAmount).toFixed(2) %></strong></td>
+                                            </tr>
+                                        <% } else { %>
+                                            <tr class="table-primary">
+                                                <td colspan="4" class="text-end"><strong>Total Amount:</strong></td>
+                                                <td><strong>&#8377;<%= order.totalAmount.toFixed(2) %></strong></td>
+                                            </tr>
+                                        <% } %>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

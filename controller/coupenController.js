@@ -172,7 +172,7 @@ const applyCoupon = async (req, res) => {
           });
         }
 
-        totalCartAmount += highestDiscountPrice * item.quantity;
+        totalCartAmount += highestDiscountPrice * Math.min(item.quantity,item.product.stock,5);
       });
   
       if (totalCartAmount < coupon.minPurchaseAmount) {

@@ -150,10 +150,10 @@
 							<p><strong>Category:</strong> [<%=pro.category.categoryName%>]</p>
 							<!-- <p ><strong>Gender:</strong> [<%=pro.gender%>]</p> -->
 
-							<% if (pro.stock<= 5) { %>
+							<% if (pro.stock<= 5&&pro.stock>0) { %>
 								<span class="stock-left text-danger ml-2">Only <%= pro.stock %> in stock</span>
-							  <% } else { %>
-							
+							  <% } else if(pro.stock<=0) { %>
+								<span class="stock-left text-danger ml-2">no stock left </span>
 							  <% } %>
 
 							<!-- Add to Cart and Add to Wishlist Buttons -->

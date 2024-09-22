@@ -256,8 +256,6 @@ const list_item = async (req, res) => {
     res.send(error);
   }
 
-
-
 }
 
 

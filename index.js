@@ -32,6 +32,10 @@ app.use('/',userRoute)
 const adminRoute=require('./routes/adminRoute')
 app.use('/admin',adminRoute)
 
+app.use((req, res, next) => {
+    
+    res.status(404).redirect('/404')
+});
 //port for host
 const port=process.env.port||3500
 
