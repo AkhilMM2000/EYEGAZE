@@ -3,6 +3,7 @@ const product = require('../model/productModel')
 const brand = require('../model/brandModel')
 const mongoose = require('mongoose')
 const category = require("../model/category")
+const offers=require('../model/offerModel')
 
 const get_addbrand = async (req, res) => {
   try {
@@ -298,11 +299,8 @@ const load_editproduct = async (req, res) => {
 const update_product = async (req, res) => {
   try {
     const files = req.files;
-    // if (!files || files.length === 0) {
-    //   return res.status(400).json({ message: 'No files were uploaded.' });
-    // }
+    
 
-    console.log(req.files,'this is the images for edit u got');
     
     const product_id = req.query.id
     const product_current=await product.findById(product_id)
@@ -327,14 +325,34 @@ const update_product = async (req, res) => {
       }
     });
   
+    
+    const current_offer = await offers.find({ category: { $elemMatch: { categoryId: { $in: product_current.category } } } }); 
+    console.log('ur currrent offer',current_offer); 
+  
+      if (current_offer.length > 0) { 
+        await product.findByIdAndUpdate(product_id,  
+          { $pull: { offers: { $in: current_offer.map(offer => offer._id) } } },  
+          { new: true } 
+        ); 
+      } 
+     
+
     // Create updated product document
     const updatedProduct = {
       listed: status, stock: quantity, productName, productBrand: branded, description, price, gender, category, productimages: current_imagearray
     };
     const result = await product.findByIdAndUpdate(product_id, updatedProduct, { new: true });
 
+
+
     if (!result) {
       return res.status(404).json({ message: 'Product not found' });
+    }
+    const exist_offer = await offers.find({ category: { $elemMatch: { categoryId: { $in: category } } } });
+
+    if (exist_offer.length > 0) {
+      // If offers exist for this category, add them to the product
+      await product.findByIdAndUpdate(product_id, { $addToSet: { offers: { $each: exist_offer.map(offer => offer._id) } } }, { new: true });
     }
 
     res.status(200).json({

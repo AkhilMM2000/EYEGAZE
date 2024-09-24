@@ -137,6 +137,11 @@ const verify_otp = async (req, res) => {
         transactions: [] 
       });
       await userwallet.save();
+      const cart=new Cart({
+        user: user._id,
+        products:[]
+      })
+      await cart.save()
       req.session.user = null;
 
       return res.status(200).json({ success: true });

@@ -83,7 +83,7 @@ const place_order = async (req, res) => {
     const { paymentMethod, addressId, coupon, razorpay_order_id, razorpay_payment_id, couponDiscountPercentage, couponDiscountAmount } = req.body;
     const userId = req.session.userid;
 
-    console.log('your payment method is', paymentMethod);
+   
 
 
     const cart = await Cart.findOne({ user: userId }).populate({
@@ -124,7 +124,7 @@ const place_order = async (req, res) => {
 
       return {
         productId: product._id,
-        quantity:Math.min(item.quantity,item.product.stock),
+        quantity:Math.min(item.quantity,item.product.stock,5),
         price: highestDiscountPrice,
         status: 'Pending'
       };
@@ -220,7 +220,7 @@ const place_order = async (req, res) => {
       for (const item of cart.products) {
         const productData = await product.findById(item.product._id);
         
-        let newStock = productData.stock - item.quantity;
+        let newStock = productData.stock - Math.min(item.quantity,item.product.stock,5);
         
         if (newStock < 0) {
           newStock = 0; // Ensure stock does not go negative
@@ -249,7 +249,7 @@ const place_order = async (req, res) => {
       for (const item of cart.products) {
         const productData = await product.findById(item.product._id);
         
-        let newStock = productData.stock - item.quantity;
+        let newStock = productData.stock -  Math.min(item.quantity,item.product.stock,5);
         
         if (newStock < 0) {
           newStock = 0; // Ensure stock does not go negative
@@ -409,7 +409,7 @@ const walletplace_order = async (req, res) => {
     for (const item of cart.products) {
       const productData = await product.findById(item.product._id);
       
-      let newStock = productData.stock - item.quantity;
+      let newStock = productData.stock -  Math.min(item.quantity,item.product.stock,5);
       
       if (newStock < 0) {
         newStock = 0; // Ensure stock does not go negative
