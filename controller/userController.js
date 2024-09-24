@@ -547,6 +547,11 @@ const load_cart = async (req, res) => {
       ]
     });
 
+    if (!cart) {
+      // Handle the case where the cart doesn't exist
+      return res.render('users/cart', { cart:1, message: 'Your cart is empty!' });
+    }
+
     if (cart && cart.products.length > 0) {
       cart.products.forEach(item => {
         const product = item.product;

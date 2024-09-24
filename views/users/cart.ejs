@@ -23,7 +23,7 @@
                         
                                 
                         
-                            <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [<%=cart.products.length%>]</a></li>
+                            <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i>  <% if(cart!==1){%>  Cart [<%=cart.products.length%>]   <% }%></a></li>
                         </ul>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                       </div>
                     </div>
                                <!-- start here-->
-                           
+                               <% if(cart!==1){%> 
                                <% cart.products.forEach((item, index) => { %> 
                                 <div class="product-cart d-flex">
                                   <div class="one-forth">
@@ -147,7 +147,7 @@
                                   </div>
                                 </div>
                               <% })%>
-                              
+                              <% }%>
                     <!-- end here -->
                      
                   </div>
@@ -173,6 +173,7 @@
                             <div class="col-sm-4 text-center">
                                 <div class="total">
                                     <div class="subtotal">
+                                        <% if(cart!==1){%> 
                                         <% if (cart.products.length !== 0) { %>
                                             <div class="cart-summary">
                                               <span>Subtotal: </span>
@@ -183,20 +184,21 @@
                                               <p>Your cart is empty.</p>
                                             </div>
                                           <% } %>
-                                          
+                                          <% }%>
                                     </div>
                                  
                                     <!-- <div class="checkout-button">
                                         <a href="/checkout"  class="btn btn-primary">Proceed to Checkout</a>
                                       
                                     </div> -->
+                                    <% if(cart!==1){%> 
                                     <% if (cart.products.length !== 0) { %>
                                         <div class="checkout-button">
                                           <a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
                                         </div>
                                       <% } %>
                                       
-                              
+                                      <% }%>
                                 </div>
                             </div>
                             
