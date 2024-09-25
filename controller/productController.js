@@ -204,7 +204,27 @@ const add_product = async (req, res) => {
     });
 
     // Insert the new product
-    await newProduct.save();
+    const savedProduct = await newProduct.save(); // Save and get the new product
+
+    // Find any offers for this product's category
+    const exist_offer = await offers.find({
+      category: {
+        $elemMatch: {
+          categoryId: { $in: category }
+        }
+      }
+    });
+
+    // If offers exist, add them to the product
+    if (exist_offer.length > 0) {
+      await product.findByIdAndUpdate(
+        savedProduct._id, // Use the new product ID
+        {
+          $addToSet: { offers: { $each: exist_offer.map(offer => offer._id) } }
+        },
+        { new: true }
+      );
+    }
 
     //  console.log(result);
     res.status(200).json({ message: 'Product uploaded successfully'});

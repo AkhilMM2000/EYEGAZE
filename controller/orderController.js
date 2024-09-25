@@ -894,7 +894,7 @@ const pdf_download = async (req, res) => {
     doc.fontSize(18).text('Sales Report', { align: 'center' });
     doc.moveDown();
     doc.fontSize(12).text(`Total Orders: ${totalOrders}`);
-    doc.text(`Total Amount: RS:${totalAmount.toFixed(2)}`);
+    doc.text(`Total Amount after discount: RS:${totalAmount.toFixed(2)}`);
     doc.text(`Total Discount: RS:${totalDiscount.toFixed(2)}`);
     doc.moveDown(2);
 
@@ -965,13 +965,15 @@ const pdf_download = async (req, res) => {
         drawTableLines(doc.y - table.rowHeight, doc.y);
       }
     }
-
+    let grandTotal = 0;
     // Add table rows with grouped products
     orders.forEach(order => {
       const productNames = order.products.map(product => product.productId.productName).join('\n');
       const quantities = order.products.map(product => product.quantity).join('\n');
-      const prices = order.products.map(product => `RS:${product.productId.price.toFixed()}`).join('\n');
+      const prices = order.products.map(product => `RS:${product.productId.price}`).join('\n');
       const productTotal = order.products.reduce((total, product) => total + (product.quantity * product.productId.price), 0);
+      
+      grandTotal += productTotal; // Add this order's total to the grand total
 
       addRow([
         order.orderId,
@@ -979,11 +981,22 @@ const pdf_download = async (req, res) => {
         productNames,
         quantities,
         prices,
-        `RS:${productTotal.toFixed()}`
+        `RS:${productTotal}`
       ]);
     });
+    doc.font('Helvetica-Bold');
+    addRow([
+      '',
+      '',
+      '',
+      '',
+      'Grand Total:',
+      `RS:${grandTotal.toFixed(2)}`
+    ]);
+    doc.font('Helvetica');
 
-    doc.end();
+    doc.end()
+  
 
   } catch (error) {
     console.log(error);
