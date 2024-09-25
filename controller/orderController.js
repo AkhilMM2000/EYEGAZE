@@ -111,12 +111,14 @@ const place_order = async (req, res) => {
 
       if (product.offers && product.offers.length > 0) {
         product.offers.forEach(offer => {
+          if (offer.status === true) {
           const discount = (product.price * offer.discount) / 100;
           const discountedPrice = product.price - discount;
 
           if (discountedPrice < highestDiscountPrice) {
             highestDiscountPrice = discountedPrice;
           }
+   }
         });
       }
 

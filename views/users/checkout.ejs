@@ -670,7 +670,8 @@ font-weight: bold;
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="addressPin" class="form-label">Pin Code </label>
-                                    <input type="number" class="form-control" id="addressPin" name="addressPin"  required>
+                                    <input type="number" class="form-control" id="addressPin1" name="addressPin" onkeyup="validatepin()"  required>
+                                    <div id="pin-error"></div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save Address</button>
@@ -952,7 +953,7 @@ function  editpinValidate(){
             let mobileError = document.getElementById('edit-errorpin');
 
             if (mobile.trim().length === 0) {
-                mobileError.innerHTML = 'mobile number is required';
+                mobileError.innerHTML = 'pin is required';
                 mobileError.style.color = 'red';
                 return false;
             }
@@ -1150,7 +1151,7 @@ if(!editdistrictValidate()||!editemailValidate()||!editmobileValidate()||!editna
              document.getElementById('addressForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
 
-            if (!validateName() || !validateMobile() || !validateEmail()|| !validatePost()||!validatecity()||!validatedistrict()|!validatestate()||!validatestreet()) {
+            if (!validateName() || !validateMobile() || !validateEmail()|| !validatePost()||!validatecity()||!validatedistrict()|!validatestate()||!validatestreet()||!validatepin()) {
                 return; // Stop the function execution if validation fails
             }
             
@@ -1391,6 +1392,29 @@ function validatePost() {
     return true;
 }
 
+function  validatepin(){
+    let mobile = document.getElementById('addressPin1').value;
+            let mobileError = document.getElementById('pin-error');
+
+            if (mobile.trim().length === 0) {
+                mobileError.innerHTML = 'pin is required';
+                mobileError.style.color = 'red';
+                return false;
+            }
+
+
+            else if (!mobile.match(/^[1-9][0-9]{5}$/)) {
+                mobileError.innerHTML = 'its not valid'
+                mobileError.style.color = 'red';
+
+                return false;
+            }
+
+
+            mobileError.innerHTML = 'Valid';
+            mobileError.style.color = 'green';
+            return true;
+}
 
           </script>
 
