@@ -82,58 +82,8 @@
 <div class="colorlib-loader"></div>
 
 <div id="page">
-  <nav class="colorlib-nav" role="navigation">
-    <div class="top-menu">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-6 col-md-9">
-                    <div id="colorlib-logo"><a href="/home">EYEGAZE</a></div>
-                </div>
-                <div class="col-6 col-md-3 text-right">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon">&#9776;</span>
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="collapse navbar-collapse" id="navbarContent">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/product">Shop</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/myaccount">My Account</a></li>
-                            <li class="nav-item cart">
-                                <a class="nav-link" href="/cart"><i class="icon-shopping-cart"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="sale">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <div class="owl-carousel2">
-                        <div class="item">
-                            <div class="col">
-                                <h3><a href="/cart">Click here to view your cart</a></h3>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="col">
-                                <h3><a href="/cart">Click here to view your cart</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+  <%- include('../partials/navbar') %>
+
 
     <div class="breadcrumbs">
         <div class="container">
@@ -265,15 +215,20 @@ function wishlistAddCart(productId) {
         confirmButtonText: 'OK'
       });
     } else if (data.message === 'Product added to cart') {
-  Swal.fire({
-    title: 'Success',
-    text: 'Product added to cart successfully.',
-    icon: 'success',
-    confirmButtonText: 'OK'
-  }).then(() => {
-    location.reload(); // Reload the page after success
-  });
-}else {
+      if (data.cartCount !== undefined) {
+        document.getElementById('cart-count').innerText = data.cartCount;
+      }
+      Swal.fire({
+        title: 'Success',
+        text: 'Product added to cart successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.reload();
+        }
+      });
+    } else {
       Swal.fire({
         title: 'Error',
         text: data.message || 'Something went wrong.',

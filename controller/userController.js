@@ -625,7 +625,10 @@ const add_cart = async (req, res) => {
 
     await cart.save();
     // Respond with success
-    res.status(200).json({ message: 'Product added to cart' });
+    res.status(200).json({ 
+      message: 'Product added to cart',
+      cartCount: cart.products.length 
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
@@ -682,7 +685,11 @@ const cart_remove = async (req, res) => {
 
         cart.products.splice(productIndex, 1);
         await cart.save();
-        res.json({ success: true, message: 'Product removed from cart' });
+        res.json({ 
+          success: true, 
+          message: 'Product removed from cart',
+          cartCount: cart.products.length
+        });
       } else {
         res.status(404).json({ success: false, message: 'Product not found in cart' });
       }
@@ -915,7 +922,10 @@ const whishlist_addcart = async (req, res) => {
       await wishlist.save();
     }
 
-    res.json({ message: 'Product added to cart' });
+    res.json({ 
+      message: 'Product added to cart',
+      cartCount: cart.products.length
+    });
 
   } catch (error) {
     console.error('Error adding product to cart:', error);

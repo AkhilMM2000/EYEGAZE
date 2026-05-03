@@ -18,6 +18,8 @@ user_route.use(nocache())
 // Middleware to parse JSON and urlencoded data
 user_route.use(express.json());
 user_route.use(express.urlencoded({ extended: true }));
+user_route.use(islogin.getCartCount);
+
 
 
 const userController=require('../controller/userController')
