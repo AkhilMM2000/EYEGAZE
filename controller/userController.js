@@ -35,9 +35,10 @@ const securePassword = async (password) => {
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: "manojakhil36@gmail.com",
-    pass: "huwt fyup ebpp rwrk"
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
+
 });
 
 // Function to generate a 4-digit OTP
@@ -49,7 +50,7 @@ function generateOTP() {
 // Function to send the OTP via email
 async function sendOTPViaEmail(email, otp) {
   const mailOptions = {
-    from: "manojakhil36@gmail.com", // The email address you're sending from
+    from: process.env.EMAIL_USER, // The email address you're sending from
     to: email,
     subject: 'Your OTP for registration',
     text: `Your OTP: ${otp}`
@@ -175,7 +176,7 @@ const resendOTP = async (req, res) => {
 ///currently work------------------------------------------------------------------------------------------------------------
 async function passwordmail(email, link) {
   const mailOptions = {
-    from: process.env.USER, // The email address you're sending from
+    from: process.env.EMAIL_USER, // The email address you're sending from
     to: email,
     subject: 'Your link for reset password',
     text: `click this link reset your password: ${link}`
