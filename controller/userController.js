@@ -50,10 +50,29 @@ function generateOTP() {
 // Function to send the OTP via email
 async function sendOTPViaEmail(email, otp) {
   const mailOptions = {
-    from: process.env.EMAIL_USER, // The email address you're sending from
+    from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Your OTP for registration',
-    text: `Your OTP: ${otp}`
+    subject: 'Your EYEGAZE Verification Code',
+    html: `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 12px; background-color: #ffffff;">
+      <div style="text-align: center; border-bottom: 2px solid #88c8bc; padding-bottom: 20px; margin-bottom: 20px;">
+        <h1 style="color: #333; margin: 0; font-size: 28px; letter-spacing: 2px;">EYEGAZE</h1>
+        <p style="color: #88c8bc; margin: 5px 0; font-weight: bold; text-transform: uppercase; font-size: 12px;">Premium Eyewear Store</p>
+      </div>
+      <div style="padding: 10px 20px; text-align: center;">
+        <h2 style="color: #444; font-size: 20px;">Verify Your Account</h2>
+        <p style="color: #666; line-height: 1.6;">Hello! Thank you for choosing <strong>EYEGAZE</strong> for your spectacles. To complete your registration and start shopping, please use the verification code below:</p>
+        <div style="background-color: #f4fdfb; border: 2px dashed #88c8bc; border-radius: 8px; padding: 20px; margin: 25px 0; display: inline-block; min-width: 150px;">
+          <span style="font-size: 36px; font-weight: bold; color: #333; letter-spacing: 8px;">${otp}</span>
+        </div>
+        <p style="color: #888; font-size: 13px; margin-top: 20px;">This code is valid for <strong>10 minutes</strong>. If you didn't request this, you can safely ignore this email.</p>
+      </div>
+      <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #aaa; font-size: 11px;">
+        <p style="margin: 5px 0;">&copy; 2024 EYEGAZE Spectacles. All rights reserved.</p>
+        <p style="margin: 5px 0;">Style | Clarity | Comfort</p>
+      </div>
+    </div>
+    `
   };
 
   return new Promise((resolve, reject) => {
@@ -176,10 +195,29 @@ const resendOTP = async (req, res) => {
 ///currently work------------------------------------------------------------------------------------------------------------
 async function passwordmail(email, link) {
   const mailOptions = {
-    from: process.env.EMAIL_USER, // The email address you're sending from
+    from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Your link for reset password',
-    text: `click this link reset your password: ${link}`
+    subject: 'Reset Your EYEGAZE Account Password',
+    html: `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 12px; background-color: #ffffff;">
+      <div style="text-align: center; border-bottom: 2px solid #e74c3c; padding-bottom: 20px; margin-bottom: 20px;">
+        <h1 style="color: #333; margin: 0; font-size: 28px; letter-spacing: 2px;">EYEGAZE</h1>
+        <p style="color: #e74c3c; margin: 5px 0; font-weight: bold; text-transform: uppercase; font-size: 12px;">Account Security</p>
+      </div>
+      <div style="padding: 10px 20px; text-align: center;">
+        <h2 style="color: #444; font-size: 20px;">Password Reset Request</h2>
+        <p style="color: #666; line-height: 1.6;">We received a request to reset your password for your <strong>EYEGAZE</strong> account. Click the button below to choose a new password:</p>
+        <div style="margin: 30px 0;">
+          <a href="${link}" style="background-color: #333; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Reset Password</a>
+        </div>
+        <p style="color: #888; font-size: 13px; margin-top: 20px;">If you didn't request this, your password will remain unchanged. This link will expire shortly.</p>
+      </div>
+      <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #aaa; font-size: 11px;">
+        <p style="margin: 5px 0;">&copy; 2024 EYEGAZE Spectacles. All rights reserved.</p>
+        <p style="margin: 5px 0;">If the button doesn't work, copy and paste this link: ${link}</p>
+      </div>
+    </div>
+    `
   };
 
   return new Promise((resolve, reject) => {
