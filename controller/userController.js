@@ -898,7 +898,11 @@ const add_wishlist = async (req, res) => {
     await wishlist.save();
 
     // Respond with success
-    res.json({ success: true, message: 'Product added to wishlist' });
+    res.json({ 
+      success: true, 
+      message: 'Product added to wishlist',
+      wishlistCount: wishlist.products.length
+    });
 
   } catch (error) {
     console.error('Error adding product to wishlist:', error);
@@ -919,7 +923,11 @@ const wishlist_remove = async (req, res) => {
         // Remove the product from the wishlist
         wishlist.products.splice(productIndex, 1);
         await wishlist.save();
-        res.json({ success: true, message: 'Product removed from wishlist' });
+        res.json({ 
+          success: true, 
+          message: 'Product removed from wishlist',
+          wishlistCount: wishlist.products.length
+        });
       } else {
         res.status(404).json({ success: false, message: 'Product not found in wishlist' });
       }
