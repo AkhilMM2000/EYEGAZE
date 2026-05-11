@@ -68,6 +68,7 @@ async function getCartCount(req, res, next) {
       res.locals.cartCount = 0;
       res.locals.wishlistCount = 0;
     }
+    res.locals.currentPath = req.path;
     next();
   } catch (error) {
     console.log("Error in getCartCount middleware:", error);
