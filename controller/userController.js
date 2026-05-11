@@ -820,7 +820,7 @@ const load_wishlist = async (req, res) => {
 
   try {
     const userId = req.session.userid;
-    const whishlist = await Wishlist.findOne({ user: userId }).populate({
+    const wishlist = await Wishlist.findOne({ user: userId }).populate({
       path: 'products.product',
       match: { listed: true },
       populate: [
@@ -829,8 +829,8 @@ const load_wishlist = async (req, res) => {
       ]
     });
 
-    if (whishlist && whishlist.products.length > 0) {
-      whishlist.products.forEach(item => {
+    if (wishlist && wishlist.products.length > 0) {
+      wishlist.products.forEach(item => {
         const product = item.product;
         let highestDiscountPrice = product.price; // Default to normal price
 
@@ -851,7 +851,7 @@ const load_wishlist = async (req, res) => {
       });
     }
 
-    res.render('users/wishlist', { whishlist })
+    res.render('users/wishlist', { wishlist })
 
 
   } catch (error) {
@@ -932,7 +932,7 @@ const wishlist_remove = async (req, res) => {
   }
 }
 
-const whishlist_addcart = async (req, res) => {
+const wishlist_addcart = async (req, res) => {
   try {
     const productId = req.params.productId;
     const userId = req.session.userid;
@@ -1023,7 +1023,7 @@ module.exports = {
   cart_remove,
   load_wishlist,
   add_wishlist,
-  whishlist_addcart,
+  wishlist_addcart,
   wishlist_remove,
   my_account,
   change_password,
