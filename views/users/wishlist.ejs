@@ -106,67 +106,73 @@
             <!-- here -->
             <div class="row row-pb-lg">
                 <div class="col-md-12">
-                  <div class="wishlist-header d-flex">
-                    <div class="w-40 text-left px-4">
-                      <span>Product Details</span>
-                    </div>
-                    <div class="w-15 text-center">
-                      <span>Price</span>
-                    </div>
-                    <div class="w-15 text-center">
-                      <span>Stock Status</span>
-                    </div>
-                    <div class="w-15 text-center">
-                      <span>Action</span>
-                    </div>
-                    <div class="w-15 text-center px-4">
-                      <span>Remove</span>
-                    </div>
-                  </div>
-                  
-                  <!-- Wishlist Item -->
-                  <% wishlist.products.forEach((item, index) => { %> 
-                  <div class="wishlist-item d-flex align-items-center">
-                    <div class="w-40 d-flex align-items-center">
-                      <div class="product-img mr-3">
-                        <img src="/productimage/<%=item.product.productimages[0]%>" alt="Product Image" class="img-fluid" style="max-width: 100px;">
+                  <% if (wishlist && wishlist.products.length > 0) { %>
+                    <div class="wishlist-header d-flex">
+                      <div class="w-40 text-left px-4">
+                        <span>Product Details</span>
                       </div>
-                      <div class="product-info">
-                        <h3 class="product-name"><%=item.product.productName%></h3>
-                     
-                      </div>
-                    </div>
-                    <% if (item.discountPrice < item.product.price) { %>
-                    <div class="w-15 text-center">
-                      <span class="price text-success">&#8377;<%=item.discountPrice%></span>
-                    </div>
-                    <% } else { %>
                       <div class="w-15 text-center">
-                        <span class="price text-success">&#8377;<%= item.product.price %></span>
+                        <span>Price</span>
                       </div>
-                      <% } %>
-
-                    <div class="w-15 text-center">
-                      <% if (item.product.stock>0) { %>
-                      <span class="stock-status text-success">In Stock</span>
-                      <% } else { %>
-                        <span class="stock-status text-success">out of Stock</span>
+                      <div class="w-15 text-center">
+                        <span>Stock Status</span>
+                      </div>
+                      <div class="w-15 text-center">
+                        <span>Action</span>
+                      </div>
+                      <div class="w-15 text-center px-4">
+                        <span>Remove</span>
+                      </div>
+                    </div>
+                    
+                    <% wishlist.products.forEach((item, index) => { %> 
+                    <div class="wishlist-item d-flex align-items-center">
+                      <div class="w-40 d-flex align-items-center">
+                        <div class="product-img mr-3">
+                          <img src="/productimage/<%=item.product.productimages[0]%>" alt="Product Image" class="img-fluid" style="max-width: 100px;">
+                        </div>
+                        <div class="product-info">
+                          <h3 class="product-name"><%=item.product.productName%></h3>
+                        </div>
+                      </div>
+                      <div class="w-15 text-center">
+                        <% if (item.discountPrice < item.product.price) { %>
+                          <span class="price text-success">&#8377;<%=item.discountPrice%></span>
+                        <% } else { %>
+                          <span class="price text-success">&#8377;<%= item.product.price %></span>
                         <% } %>
-                    </div>
-                    <div class="w-15 text-center">
-                      <button class="btn btn-primary add-to-cart-btn" onclick="wishlistAddCart('<%=item.product._id%>')">Add to Cart</button>
-                    </div>
-                    <div class="w-15 text-center">
+                      </div>
+
+                      <div class="w-15 text-center">
+                        <% if (item.product.stock > 0) { %>
+                          <span class="stock-status text-success">In Stock</span>
+                        <% } else { %>
+                          <span class="stock-status text-danger">Out of Stock</span>
+                        <% } %>
+                      </div>
+                      <div class="w-15 text-center">
+                        <button class="btn btn-primary add-to-cart-btn" onclick="wishlistAddCart('<%=item.product._id%>')">Add to Cart</button>
+                      </div>
+                      <div class="w-15 text-center">
                         <button class="btn btn-outline-danger remove-btn" onclick="removeFromWishlist('<%=item.product._id%>')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <line x1="18" y1="6" x2="6" y2="18"></line>
-                              <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                          </button>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <% })%>
-                  <!-- End Wishlist Item -->
+                    <% }) %>
+                  <% } else { %>
+                    <div class="text-center py-5" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin: 20px 0;">
+                      <div class="mb-4">
+                        <i class="icon-heart" style="font-size: 100px; color: #f2f2f2;"></i>
+                      </div>
+                      <h2 style="font-weight: 700; color: #333; margin-bottom: 15px;">Your Wishlist is Empty</h2>
+                      <p style="color: #888; max-width: 500px; margin: 0 auto 30px; font-size: 16px; line-height: 1.6;">It looks like you haven't added any eyewear to your wishlist yet. Explore our collection and find your perfect pair!</p>
+                      <a href="/product" class="btn btn-primary" style="padding: 15px 40px; border-radius: 30px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Start Shopping</a>
+                    </div>
+                  <% } %>
                 </div>
               </div>
               
