@@ -264,6 +264,10 @@ const admhome = async (req, res) => {
         });
       
 
+        const totalUsers = await User.countDocuments({ is_admin: 0 });
+        const totalProductsCount = await product.countDocuments();
+        const averageOrderValue = no_of_orders > 0 ? (totalSales / no_of_orders) : 0;
+
         res.render('admin/dashboard', {
             salesData: JSON.stringify(salesData),
             totalSales,
@@ -272,7 +276,10 @@ const admhome = async (req, res) => {
             topProducts,
             bestCategories,
             bestBrands,
-            count: no_of_orders
+            count: no_of_orders,
+            totalUsers,
+            totalProductsCount,
+            averageOrderValue
         });
     } catch (error) {
         console.log(error);
