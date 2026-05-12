@@ -59,10 +59,10 @@ user_route.post('/cart/update/:count/:productid',islogin.verifyLogin,userControl
 user_route.delete('/cart/delete/:productid',islogin.verifyLogin,userController.cart_remove)
 
 //route for wishlist under
-user_route.get('/whishlist',islogin.verifyLogin,userController.load_wishlist)
+user_route.get('/wishlist',islogin.verifyLogin,userController.load_wishlist)
 user_route.post('/wishlist/:productid',islogin.verifyLogin,userController.add_wishlist)
 user_route.delete('/wishlist/delete/:productid',islogin.verifyLogin,userController.wishlist_remove)
-user_route.post('/wishlist/addtocart/:productId',islogin.verifyLogin,userController.whishlist_addcart)
+user_route.post('/wishlist/addtocart/:productId',islogin.verifyLogin,userController.wishlist_addcart)
 
 //route for order-------------------------------------------------------------------------------------------------------
 user_route.get('/checkout',islogin.verifyLogin,orderController.load_checkout)

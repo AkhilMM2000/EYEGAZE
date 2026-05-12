@@ -335,11 +335,18 @@ function addwishlist(productId) {
         confirmButtonText: 'OK'
       });
     } else if (data.message === 'Product added to wishlist') {
+      if (data.wishlistCount !== undefined) {
+        document.getElementById('wishlist-count').innerText = data.wishlistCount;
+      }
       Swal.fire({
         title: 'Success',
         text: 'Product added to wishlist.',
         icon: 'success',
         confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.reload();
+        }
       });
     } else if (data.message === 'Product already in wishlist') {
       Swal.fire({

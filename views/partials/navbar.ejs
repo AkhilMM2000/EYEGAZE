@@ -6,12 +6,14 @@
                     <div id="colorlib-logo"><a href="/home">EYEGAZE</a></div>
                 </div>
                 <div class="col-sm-5 col-md-3">
-                    <form action="/product" class="search-wrap" method="get">
-                        <div class="form-group">
-                            <input type="search" name="search" class="form-control search" placeholder="Search" value="<%= locals.searchQuery || '' %>">
-                            <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
-                        </div>
-                    </form>
+                    <% if (locals.currentPath === '/product') { %>
+                        <form action="/product" class="search-wrap" method="get">
+                            <div class="form-group">
+                                <input type="search" name="search" class="form-control search" placeholder="Search" value="<%= locals.searchQuery || '' %>">
+                                <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
+                            </div>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div class="row">
@@ -33,6 +35,7 @@
                                 </ul>
                             </li>
                         <% } %>
+                        <li class="cart"><a href="/wishlist"><i class="icon-heart"></i> Wishlist [<span id="wishlist-count"><%= locals.wishlistCount || 0 %></span>]</a></li>
                         <li class="cart"><a href="/cart"><i class="icon-shopping-cart"></i> Cart [<span id="cart-count"><%= locals.cartCount || 0 %></span>]</a></li>
                     </ul>
                 </div>
