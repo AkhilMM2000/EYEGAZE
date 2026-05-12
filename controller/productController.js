@@ -20,6 +20,7 @@ const get_addbrand = async (req, res) => {
 
 
 
+
 const add_brand = async (req, res) => {
   try {
     const { brandStatus } = req.body;

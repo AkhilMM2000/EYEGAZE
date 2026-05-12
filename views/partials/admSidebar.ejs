@@ -1,0 +1,139 @@
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+    <div class="brand-logo-container">
+        <a href="/admin/dashboard" style="text-decoration: none;">
+            <span style="font-size: 24px; font-weight: 700; color: white; display: flex; align-items: center; font-family: 'Outfit', sans-serif;">
+                <i class="mdi mdi-glasses mr-2" style="color: var(--primary-light);"></i>
+                <span>EYEGAZE</span>
+            </span>
+        </a>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/dashboard' ? 'active' : '' %>" href="/admin/dashboard">
+                <i class="mdi mdi-view-dashboard menu-icon"></i>Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/products' ? 'active' : '' %>" href="/admin/products">
+                <i class="mdi mdi-package-variant-closed menu-icon"></i>Products
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/category' ? 'active' : '' %>" href="/admin/category">
+                <i class="mdi mdi-shape menu-icon"></i>Categories
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/brand' ? 'active' : '' %>" href="/admin/brand">
+                <i class="mdi mdi-tag menu-icon"></i>Brands
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/orders' ? 'active' : '' %>" href="/admin/orders">
+                <i class="mdi mdi-cart menu-icon"></i>Orders
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/sales' ? 'active' : '' %>" href="/admin/sales">
+                <i class="mdi mdi-chart-line menu-icon"></i>Sales Report
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/offers' ? 'active' : '' %>" href="/admin/offers">
+                <i class="mdi mdi-gift menu-icon"></i>Offers
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/users' ? 'active' : '' %>" href="/admin/users">
+                <i class="mdi mdi-account-multiple menu-icon"></i>Users
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= currentPath === '/admin/coupon' ? 'active' : '' %>" href="/admin/coupon">
+                <i class="mdi mdi-ticket-percent menu-icon"></i>Coupons
+            </a>
+        </li>
+        <li class="nav-item" style="margin-top: auto;">
+            <a class="nav-link text-danger" href="/admin/logout">
+                <i class="mdi mdi-logout menu-icon"></i>Logout
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<style>
+    :root {
+        --primary: #0d9488;
+        --primary-light: #2dd4bf;
+        --secondary: #1e293b;
+        --accent: #f59e0b;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --sidebar-width: 260px;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+        width: var(--sidebar-width);
+        background: var(--secondary);
+        position: fixed;
+        height: 100vh;
+        z-index: 1000;
+        color: white;
+        padding-top: 20px;
+        left: 0;
+        top: 0;
+    }
+
+    .sidebar .nav-link {
+        color: #94a3b8;
+        padding: 12px 25px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        transition: all 0.2s;
+        border-radius: 0 50px 50px 0;
+        margin: 4px 0;
+        margin-right: 15px;
+        text-decoration: none;
+    }
+
+    .sidebar .nav-link:hover {
+        color: white;
+        background: rgba(255,255,255,0.05);
+        padding-left: 30px;
+    }
+
+    .sidebar .nav-link.active {
+        color: white;
+        background: var(--primary);
+        box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+    }
+
+    .sidebar .menu-icon {
+        margin-right: 12px;
+        font-size: 1.2rem;
+    }
+
+    .brand-logo-container {
+        padding: 0 25px 30px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        margin-bottom: 20px;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+        margin-left: var(--sidebar-width);
+        transition: margin 0.3s ease;
+    }
+
+    @media (max-width: 992px) {
+        .main-content { margin-left: 0; padding: 1rem; }
+        .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+        .sidebar.active { transform: translateX(0); }
+    }
+</style>

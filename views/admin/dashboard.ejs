@@ -200,27 +200,7 @@
 </style>
   
 <div class="admin-wrapper">
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="brand-logo-container">
-            <span style="font-size: 24px; font-weight: 700; color: white; display: flex; align-items: center; font-family: 'Outfit', sans-serif;">
-                <i class="mdi mdi-glasses mr-2" style="color: var(--primary-light);"></i>
-                <span>EYEGAZE</span>
-            </span>
-        </div>
-        <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link active" href="/admin/dashboard"><i class="mdi mdi-view-dashboard menu-icon"></i>Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/products"><i class="mdi mdi-package-variant-closed menu-icon"></i>Products</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/category"><i class="mdi mdi-shape menu-icon"></i>Categories</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/brand"><i class="mdi mdi-tag menu-icon"></i>Brands</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/orders"><i class="mdi mdi-cart menu-icon"></i>Orders</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/sales"><i class="mdi mdi-chart-line menu-icon"></i>Sales Report</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/offers"><i class="mdi mdi-gift menu-icon"></i>Offers</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/users"><i class="mdi mdi-account-multiple menu-icon"></i>Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/coupon"><i class="mdi mdi-ticket-percent menu-icon"></i>Coupons</a></li>
-            <li class="nav-item" style="margin-top: auto;"><a class="nav-link text-danger" href="/admin/logout"><i class="mdi mdi-logout menu-icon"></i>Logout</a></li>
-        </ul>
-    </nav>
+    <%- include('../partials/admSidebar') %>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -236,6 +216,7 @@
                     <option value="Yearly">Yearly</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Weekly">Weekly</option>
+                    <option value="All">All Time</option>
                 </select>
             </div>
         </header>
@@ -247,7 +228,7 @@
                     <div>
                         <div class="stat-icon" style="background: #ecfdf5; color: #059669;"><i class="mdi mdi-currency-inr"></i></div>
                         <div class="stat-label">Total Revenue</div>
-                        <div class="stat-value" id="totalRevenueVal">₹<%= totalSales.toLocaleString('en-IN') %></div>
+                        <div class="stat-value" id="totalRevenueVal">₹<%= (locals.totalSales || 0).toLocaleString('en-IN') %></div>
                     </div>
                     <div class="mt-2 text-success" style="font-size: 0.8rem; font-weight: 600;">
                         <i class="mdi mdi-trending-up mr-1"></i> +12.5% from last period
@@ -259,7 +240,7 @@
                     <div>
                         <div class="stat-icon" style="background: #eff6ff; color: #2563eb;"><i class="mdi mdi-shopping-outline"></i></div>
                         <div class="stat-label">Total Orders</div>
-                        <div class="stat-value"><%= count %></div>
+                        <div class="stat-value"><%= locals.count || 0 %></div>
                     </div>
                     <div class="mt-2 text-muted" style="font-size: 0.8rem;">
                         Orders in selected period
@@ -312,19 +293,24 @@
                     </div>
                     <div class="chart-container" style="height: 350px; display: flex; flex-direction: column; justify-content: center;">
                         <canvas id="orderStatusChart"></canvas>
-                        <div class="mt-4 d-flex justify-content-center gap-3">
-                            <div class="d-flex align-items-center mr-3">
-                                <span style="width: 10px; height: 10px; background: #0d9488; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
-                                <span class="small font-weight-bold">Delivered</span>
-                            </div>
-                            <div class="d-flex align-items-center mr-3">
-                                <span style="width: 10px; height: 10px; background: #f43f5e; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
-                                <span class="small font-weight-bold">Cancelled</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span style="width: 10px; height: 10px; background: #fbbf24; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
-                                <span class="small font-weight-bold">Returned</span>
-                            </div>
+                        <div class="mt-4 d-flex flex-wrap justify-content-center gap-3">
+                            <% 
+                                const sColors = {
+                                    'Delivered': '#0d9488',
+                                    'Cancelled': '#f43f5e',
+                                    'Returned': '#fbbf24',
+                                    'Placed': '#6366f1',
+                                    'Shipped': '#8b5cf6',
+                                    'Pending': '#94a3b8'
+                                };
+                                const sData = locals.statusData || {};
+                                Object.keys(sData).forEach(status => { 
+                            %>
+                                <div class="d-flex align-items-center mr-3 mb-2">
+                                    <span style="width: 10px; height: 10px; background: <%= sColors[status] || '#cbd5e1' %>; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+                                    <span class="small font-weight-bold"><%= status %>: <%= sData[status] %></span>
+                                </div>
+                            <% }); %>
                         </div>
                     </div>
                 </div>
@@ -339,7 +325,7 @@
                         <i class="mdi mdi-shape-outline mr-2 text-primary"></i> Top Categories
                     </h6>
                     <div class="best-selling-list">
-                        <% bestCategories.forEach(category => { %>
+                        <% (locals.bestCategories || []).forEach(category => { %>
                             <div class="list-item-custom">
                                 <div>
                                     <div class="font-weight-bold" style="font-size: 0.9rem;"><%= category.categoryName %></div>
@@ -360,7 +346,7 @@
                         <i class="mdi mdi-tag-outline mr-2 text-warning"></i> Best Brands
                     </h6>
                     <div class="best-selling-list">
-                        <% bestBrands.forEach(brand => { %>
+                        <% (locals.bestBrands || []).forEach(brand => { %>
                             <div class="list-item-custom">
                                 <div class="font-weight-bold" style="font-size: 0.9rem;"><%= brand.brandName %></div>
                                 <span class="badge-soft" style="background: #fff7ed; color: #9a3412;"><%= brand.totalSold %> Sold</span>
@@ -376,7 +362,7 @@
                         <i class="mdi mdi-trophy-outline mr-2 text-accent"></i> Top Products
                     </h6>
                     <div class="best-selling-list">
-                        <% topProducts.forEach(product => { %>
+                        <% (locals.topProducts || []).forEach(product => { %>
                             <div class="list-item-custom">
                                 <div style="max-width: 150px;">
                                     <div class="font-weight-bold text-truncate" style="font-size: 0.9rem;"><%= product.productName %></div>
@@ -399,8 +385,8 @@
   document.addEventListener('DOMContentLoaded', function() {
     // 1. Sales Over Time Chart (Modern Bar/Area)
     const salesCtx = document.getElementById('salesOverTimeChart').getContext('2d');
-    const salesData = JSON.parse('<%- salesData %>');
-    const timeframe = '<%- timeframe %>';
+    const salesData = <%- locals.salesData || '[]' %>;
+    const timeframe = '<%= locals.timeframe || "yearly" %>';
 
     const gradient = salesCtx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 148, 136, 0.6)');
@@ -410,7 +396,7 @@
     const values = salesData.map(item => item.totalSales);
 
     new Chart(salesCtx, {
-        type: 'line', // Changed to line for a smoother look
+        type: 'bar', // Changed to bar chart for robust single-point display
         data: {
             labels: labels,
             datasets: [{
@@ -418,14 +404,9 @@
                 data: values,
                 backgroundColor: gradient,
                 borderColor: '#0d9488',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4, // Smooth curves
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#0d9488',
-                pointBorderWidth: 2,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                borderWidth: 1,
+                borderRadius: 6, // Modern rounded bars
+                borderSkipped: false
             }]
         },
         options: {
@@ -462,20 +443,32 @@
 
     // 2. Order Status Chart (Modern Donut)
     const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
+    const sDataForChart = <%- JSON.stringify(locals.statusData || {}) %>;
+    const statusLabels = Object.keys(sDataForChart);
+    const statusValues = Object.values(sDataForChart);
+    
+    const donutColors = statusLabels.map(status => {
+        const colors = {
+            'Delivered': '#0d9488',
+            'Cancelled': '#f43f5e',
+            'Returned': '#fbbf24',
+            'Placed': '#6366f1',
+            'Shipped': '#8b5cf6',
+            'Pending': '#94a3b8'
+        };
+        return colors[status] || '#cbd5e1';
+    });
+
     new Chart(statusCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Delivered', 'Cancelled', 'Returned'],
+            labels: statusLabels,
             datasets: [{
-                data: [
-                    '<%= statusData.delivered %>', 
-                    '<%= statusData.cancelled %>', 
-                    '<%= statusData.returned %>'
-                ],
-                backgroundColor: ['#0d9488', '#f43f5e', '#fbbf24'],
+                data: statusValues,
+                backgroundColor: donutColors,
                 hoverOffset: 10,
                 borderWidth: 0,
-                cutout: '75%' // Makes it a thin, modern donut
+                cutout: '75%'
             }]
         },
         options: {
@@ -487,19 +480,29 @@
         }
     });
 
-    // 3. Timeframe Logic
-    document.getElementById('timeFrame').addEventListener('change', function() {
-        const selectedValue = this.value;
+    // 3. Timeframe Logic (Persistence & UI Update)
+    const tfSelect = document.getElementById('timeFrame');
+    tfSelect.addEventListener('change', function() {
+        const selectedValue = this.value.toLowerCase();
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set('timeframe', selectedValue);
         window.location.href = currentUrl.toString();
     });
 
-    // Set initial select value
-    const urlParams = new URLSearchParams(window.location.search);
-    const timeframeParam = urlParams.get('timeframe');
-    if (timeframeParam) {
-        document.getElementById('timeFrame').value = timeframeParam;
+    // Sync UI with current filter
+    const activeTf = '<%= locals.timeframe || "yearly" %>';
+    if (activeTf) {
+        if (activeTf === 'all') {
+            tfSelect.value = 'All';
+        } else {
+            tfSelect.value = activeTf.charAt(0).toUpperCase() + activeTf.slice(1);
+        }
+        
+        // Update trend text based on filter
+        const trendLabel = document.querySelector('.mt-2.text-muted');
+        if (trendLabel) {
+            trendLabel.textContent = activeTf === 'all' ? 'All time orders' : `Orders in the last ${activeTf}`;
+        }
     }
 });
 </script>

@@ -61,6 +61,9 @@ const admhome = async (req, res) => {
         } else if (timeframe === 'monthly') {
             startDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
             endDate = new Date();
+        } else if (timeframe === 'all') {
+            startDate = new Date(0); // Beginning of time
+            endDate = new Date();
         } else {
             // Default to yearly
             startDate = new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
@@ -245,17 +248,9 @@ const admhome = async (req, res) => {
                 }
             }
         ]);
-        const statusData = {
-            delivered: 0,
-            cancelled: 0,
-            returned: 0
-        };
-
+        const statusData = {};
         orderStatusCounts.forEach(order => {
-            if (order._id === 'Delivered') statusData.delivered = order.count;
-            if (order._id === 'Cancelled') statusData.cancelled = order.count;
-            if (order._id === 'Returned') statusData.returned = order.count;
-
+            statusData[order._id] = order.count;
         });
 
 

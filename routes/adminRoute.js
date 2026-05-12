@@ -23,6 +23,11 @@ admin_route.use(express.json());
 admin_route.use(express.urlencoded({ extended: true }));
 admin_route.use(express.static(path.join(__dirname,'../public/admin')))
 
+admin_route.use((req, res, next) => {
+    res.locals.currentPath = req.path;
+    next();
+});
+
 //admin login
 admin_route.get('/',islogin.verifyLogout,adminController.sign)
 admin_route.post('/',islogin.verifyLogout,adminController.verify_admin)
