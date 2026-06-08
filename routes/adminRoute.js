@@ -93,3 +93,9 @@ admin_route.get('*',function(req,res){
   })
 
   module.exports=admin_route
+
+
+
+
+
+  

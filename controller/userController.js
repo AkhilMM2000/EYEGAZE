@@ -351,10 +351,22 @@ const verify_user = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, userData.password);
       if (passwordMatch) {
         if (userData.is_blocked === 0) {
-
           req.session.userid = userData._id
+          console.log("verify_user: Login successful. req.session.returnTo =", req.session.returnTo);
 
-          res.redirect('/home')
+          let redirectTo = '/home';
+          if (req.session.returnTo) {
+            try {
+              const url = new URL(req.session.returnTo);
+              if (url.host === req.get('host')) {
+                redirectTo = url.pathname + url.search;
+              }
+            } catch (e) {
+              redirectTo = req.session.returnTo;
+            }
+            delete req.session.returnTo;
+          }
+          res.redirect(redirectTo);
         } else {
           res.render('users/sign', { message: "User blocked" });
         }
@@ -423,7 +435,32 @@ const googleSuccess = async (req, res, next) => {
     console.log(req.user);
     req.session.userid = req.user._id
 
-    res.redirect('/home');
+    // Restore returnTo from res.locals if passport regenerated the session
+    if (res.locals.keepReturnTo) {
+      req.session.returnTo = res.locals.keepReturnTo;
+    }
+    console.log("googleSuccess: req.session.returnTo =", req.session.returnTo);
+
+    let redirectTo = '/home';
+    if (req.session.returnTo) {
+      try {
+        const url = new URL(req.session.returnTo);
+        if (url.host === req.get('host')) {
+          redirectTo = url.pathname + url.search;
+        }
+      } catch (e) {
+        redirectTo = req.session.returnTo;
+      }
+      delete req.session.returnTo;
+    } else {
+      const productId = req.session.productId;
+      if (productId) {
+        redirectTo = `/productdetail/${productId}`;
+        delete req.session.productId;
+      }
+    }
+    console.log("googleSuccess: Redirecting to =", redirectTo);
+    res.redirect(redirectTo);
   } catch (error) {
     res.send(error);
   }
@@ -629,10 +666,6 @@ const add_cart = async (req, res) => {
     const userId = req.session.userid
     const productId = req.params.productid
     const count = parseInt(req.params.count)
-
-    if (!userId) {
-      return res.redirect('/sign');
-    }
 
     const productdata = await product.findById(productId);
     const existing_stock = productdata.stock

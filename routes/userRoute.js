@@ -43,7 +43,16 @@ user_route.patch('/savenewpassword',islogin.verifyLogout,userController.save_pas
 //route for google authentication
 
 // //google auth
-user_route.get('/auth/google/callback',islogin.verifyLogout,passport.authenticate('google', { failureRedirect: '/sign' }),userController.googleSuccess);
+user_route.get('/auth/google/callback',
+  islogin.verifyLogout,
+  (req, res, next) => {
+    res.locals.keepReturnTo = req.session.returnTo;
+    console.log("Google callback: Preserving returnTo in res.locals =", res.locals.keepReturnTo);
+    next();
+  },
+  passport.authenticate('google', { failureRedirect: '/sign' }),
+  userController.googleSuccess
+);
 
 user_route.get('/auth/google',islogin.verifyLogout,passport.authenticate('google', { scope: ['profile', 'email'] }));
 

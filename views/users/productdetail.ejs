@@ -355,6 +355,19 @@ function addwishlist(productId) {
         icon: 'info',
         confirmButtonText: 'OK'
       });
+    } else if (data && data.redirectUrl) {
+      Swal.fire({
+        title: 'Login Required',
+        text: data.message || 'Please login to continue.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sign In',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = data.redirectUrl;
+        }
+      });
     } else if (data) {
       Swal.fire({
         title: 'Error',
@@ -413,6 +426,19 @@ function addcart(productId,count) {
         }).then((result) => {
           if (result.isConfirmed) {
             location.reload();
+          }
+        });
+      } else if (data && data.redirectUrl) {
+        Swal.fire({
+          title: 'Login Required',
+          text: data.message || 'Please login to continue.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sign In',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = data.redirectUrl;
           }
         });
       } else if (data) {
