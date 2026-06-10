@@ -70,197 +70,203 @@ const admhome = async (req, res) => {
             endDate = new Date();
         }
 
-        // Aggregate sales data
-        const salesData = await Order.aggregate([
-            {
-                $match: {
-                    orderDate: { $gte: startDate, $lt: endDate }
+        // Run all independent queries in parallel (Round 1)
+        const [
+            salesData,
+            topProductsAgg,
+            bestCategoriesAgg,
+            bestBrandsAgg,
+            orderStatusCounts,
+            no_of_orders,
+            totalUsers,
+            totalProductsCount
+        ] = await Promise.all([
+            // 1. Aggregate sales data
+            Order.aggregate([
+                {
+                    $match: {
+                        orderDate: { $gte: startDate, $lt: endDate }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: {
+                                format: timeframe === 'weekly' ? "%Y-%m-%d" : "%Y-%m",
+                                date: "$orderDate"
+                            }
+                        },
+                        totalSales: { $sum: "$totalAmount" }
+                    }
+                },
+                { $sort: { _id: 1 } }
+            ]),
+            // 2. Aggregate to find top 10 most-selling products
+            Order.aggregate([
+                {
+                    $match: {
+                        orderDate: { $gte: startDate, $lt: endDate }
+                    }
+                },
+                {
+                    $unwind: "$products"
+                },
+                {
+                    $group: {
+                        _id: "$products.productId",
+                        totalSold: { $sum: "$products.quantity" }
+                    }
+                },
+                { $sort: { totalSold: -1 } },
+                { $limit: 10 }
+            ]),
+            // 3. Aggregate for best-selling categories
+            Order.aggregate([
+                {
+                    $match: {
+                        orderDate: { $gte: startDate, $lt: endDate }
+                    }
+                },
+                {
+                    $unwind: "$products"
+                },
+                {
+                    $group: {
+                        _id: "$products.productId",
+                        totalSold: { $sum: "$products.quantity" }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "productDetails"
+                    }
+                },
+                {
+                    $unwind: "$productDetails"
+                },
+                {
+                    $group: {
+                        _id: "$productDetails.category",
+                        totalSold: { $sum: "$totalSold" }
+                    }
+                },
+                { $sort: { totalSold: -1 } },
+                { $limit: 10 }
+            ]),
+            // 4. Aggregate for best-selling brands
+            Order.aggregate([
+                {
+                    $match: {
+                        orderDate: { $gte: startDate, $lt: endDate }
+                    }
+                },
+                {
+                    $unwind: "$products"
+                },
+                {
+                    $group: {
+                        _id: "$products.productId",
+                        totalSold: { $sum: "$products.quantity" }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "productDetails"
+                    }
+                },
+                {
+                    $unwind: "$productDetails"
+                },
+                {
+                    $group: {
+                        _id: "$productDetails.productBrand",
+                        totalSold: { $sum: "$totalSold" }
+                    }
+                },
+                { $sort: { totalSold: -1 } },
+                { $limit: 5 }
+            ]),
+            // 5. Aggregate order status counts
+            Order.aggregate([
+                {
+                    $match: {
+                        orderDate: { $gte: startDate, $lt: endDate }
+                    }
+                },
+                {
+                    $unwind: "$products"
+                },
+                {
+                    $group: {
+                        _id: "$products.status",
+                        count: { $sum: 1 }
+                    }
                 }
-            },
-            {
-                $group: {
-                    _id: {
-                        $dateToString: {
-                            format: timeframe === 'weekly' ? "%Y-%m-%d" : "%Y-%m",
-                            date: "$orderDate"
-                        }
-                    },
-                    totalSales: { $sum: "$totalAmount" }
-                }
-            },
-            { $sort: { _id: 1 } }
+            ]),
+            // 6. Count number of orders
+            Order.countDocuments({
+                orderDate: { $gte: startDate, $lt: endDate }
+            }),
+            // 7. Count total users
+            User.countDocuments({ is_admin: 0 }),
+            // 8. Count total products
+            product.countDocuments()
         ]);
-
 
         const totalSales = salesData.reduce((sum, day) => sum + day.totalSales, 0);
 
-        // Aggregate to find top 5 most-selling products
-        const topProductsAgg = await Order.aggregate([
-            {
-                $match: {
-                    orderDate: { $gte: startDate, $lt: endDate }
-                }
-            },
-            {
-                $unwind: "$products" // Unwind the products array
-            },
-            {
-                $group: {
-                    _id: "$products.productId", // Group by product ID
-                    totalSold: { $sum: "$products.quantity" } // Sum the quantity sold
-                }
-            },
-            { $sort: { totalSold: -1 } }, // Sort by totalSold in descending order
-            { $limit: 10 } // Limit to top 5 products
-        ]);
-
-        // Manually query the Product model to get product details
+        // Map IDs for dependent lookup queries
         const productIds = topProductsAgg.map(item => item._id);
-        const products = await product.find({ _id: { $in: productIds } })
-            .select('productName price category productBrand');
+        const categoryIds = bestCategoriesAgg.map(item => item._id);
+        const brandIds = bestBrandsAgg.map(item => item._id);
+
+        // Run all dependent detail queries in parallel (Round 2)
+        const [products, categories, brands] = await Promise.all([
+            product.find({ _id: { $in: productIds } }).select('productName price category productBrand'),
+            category.find({ _id: { $in: categoryIds } }).select('categoryName'),
+            Brand.find({ _id: { $in: brandIds } }).select('brandName')
+        ]);
 
         // Merge product details with the aggregation result
         const topProducts = topProductsAgg.map(item => {
-            const product = products.find(p => p._id.toString() === item._id.toString());
+            const prod = products.find(p => p._id.toString() === item._id.toString());
             return {
-                productName: product.productName,
-                price: product.price,
+                productName: prod ? prod.productName : 'Unknown',
+                price: prod ? prod.price : 0,
                 totalSold: item.totalSold,
-                category: product.category,
-                productBrand: product.productBrand
+                category: prod ? prod.category : null,
+                productBrand: prod ? prod.productBrand : null
             };
         });
 
-        // Aggregate for best-selling categories
-        const bestCategoriesAgg = await Order.aggregate([
-            {
-                $match: {
-                    orderDate: { $gte: startDate, $lt: endDate }
-                }
-            },
-            {
-                $unwind: "$products" // Unwind the products array
-            },
-            {
-                $group: {
-                    _id: "$products.productId", // Group by product ID
-                    totalSold: { $sum: "$products.quantity" }
-                }
-            },
-            {
-                $lookup: {
-                    from: "products",
-                    localField: "_id",
-                    foreignField: "_id",
-                    as: "productDetails"
-                }
-            },
-            {
-                $unwind: "$productDetails"
-            },
-            {
-                $group: {
-                    _id: "$productDetails.category", // Group by category
-                    totalSold: { $sum: "$totalSold" }
-                }
-            },
-            { $sort: { totalSold: -1 } }, // Sort by totalSold in descending order
-            { $limit: 10 } // Limit to top 5 categories
-        ]);
-
-        // Aggregate for best-selling brands
-        const bestBrandsAgg = await Order.aggregate([
-            {
-                $match: {
-                    orderDate: { $gte: startDate, $lt: endDate }
-                }
-            },
-            {
-                $unwind: "$products" // Unwind the products array
-            },
-            {
-                $group: {
-                    _id: "$products.productId", // Group by product ID
-                    totalSold: { $sum: "$products.quantity" }
-                }
-            },
-            {
-                $lookup: {
-                    from: "products",
-                    localField: "_id",
-                    foreignField: "_id",
-                    as: "productDetails"
-                }
-            },
-            {
-                $unwind: "$productDetails"
-            },
-            {
-                $group: {
-                    _id: "$productDetails.productBrand", // Group by brand
-                    totalSold: { $sum: "$totalSold" }
-                }
-            },
-            { $sort: { totalSold: -1 } }, // Sort by totalSold in descending order
-            { $limit: 5 } // Limit to top 5 brands
-        ]);
-
-        // Fetch category names using the bestCategoriesAgg IDs
-        const categoryIds = bestCategoriesAgg.map(item => item._id);
-        const categories = await category.find({ _id: { $in: categoryIds } })
-            .select('categoryName');
-
-        // Fetch brand names using the bestBrandsAgg IDs
-        const brandIds = bestBrandsAgg.map(item => item._id);
-        const brands = await Brand.find({ _id: { $in: brandIds } })
-            .select('brandName');
-
         // Map the category and brand names to the aggregation results
         const bestCategories = bestCategoriesAgg.map(item => {
-            const category = categories.find(c => c._id.toString() === item._id.toString());
+            const cat = categories.find(c => c._id.toString() === item._id.toString());
             return {
-                categoryName: category ? category.categoryName : 'Unknown',
+                categoryName: cat ? cat.categoryName : 'Unknown',
                 totalSold: item.totalSold
             };
         });
 
         const bestBrands = bestBrandsAgg.map(item => {
-            const brand = brands.find(b => b._id.toString() === item._id.toString());
+            const br = brands.find(b => b._id.toString() === item._id.toString());
             return {
-                brandName: brand ? brand.brandName : 'Unknown',
+                brandName: br ? br.brandName : 'Unknown',
                 totalSold: item.totalSold
             };
         });
-        ///to show the status in dashboard 
-        const orderStatusCounts = await Order.aggregate([
-            {
-                $match: {
-                    orderDate: { $gte: startDate, $lt: endDate }
-                }
-            },
-            {
-                $unwind: "$products"  // Unwind the products array to consider each product's status
-            },
-            {
-                $group: {
-                    _id: "$products.status",
-                    count: { $sum: 1 }
-                }
-            }
-        ]);
+
         const statusData = {};
         orderStatusCounts.forEach(order => {
             statusData[order._id] = order.count;
         });
 
-
-        const no_of_orders = await Order.countDocuments({
-            orderDate: { $gte: startDate, $lt: endDate }
-        });
-      
-
-        const totalUsers = await User.countDocuments({ is_admin: 0 });
-        const totalProductsCount = await product.countDocuments();
         const averageOrderValue = no_of_orders > 0 ? (totalSales / no_of_orders) : 0;
 
         res.render('admin/dashboard', {

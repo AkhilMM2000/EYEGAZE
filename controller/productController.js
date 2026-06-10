@@ -146,9 +146,10 @@ const brand_editname = async (req, res) => {
 
 const load_product = async (req, res) => {
   try {
-    const categorydata = await category.find({ listed: true })
-    const brandata = await brand.find({ listed: true })
-
+    const [categorydata, brandata] = await Promise.all([
+      category.find({ listed: true }),
+      brand.find({ listed: true })
+    ]);
 
     res.render('admin/addproduct', { categorydata, brandata })
 
@@ -304,9 +305,11 @@ const load_editproduct = async (req, res) => {
   try {
     const productid = req.query.id
 
-    const productdata = await product.findById(productid).populate('category').populate('productBrand');
-    const categories = await category.find();
-    const brands = await brand.find();
+    const [productdata, categories, brands] = await Promise.all([
+      product.findById(productid).populate('category').populate('productBrand'),
+      category.find(),
+      brand.find()
+    ]);
 
     if (!productdata) {
       console.log("product not found here");

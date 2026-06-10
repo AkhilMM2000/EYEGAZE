@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "brand",
     required: true,
-
+    index: true
   },
   description: {
     type: String
@@ -36,16 +36,19 @@ const productSchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "category",
-    required: true
+    required: true,
+    index: true
   },
   Date: {
     type: Date,
     default: Date.now,
-    require: true
+    require: true,
+    index: true
   },
   listed: {
     type: Boolean,
-    required: true
+    required: true,
+    index: true
   },
   
   offers: [{

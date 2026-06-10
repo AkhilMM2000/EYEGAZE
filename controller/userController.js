@@ -298,10 +298,13 @@ const save_password = async (req, res) => {
 const loginhome = async (req, res) => {
   try {
 
-    const userdata = await User.findById(req.session.userid)
-    const latestProducts = await product.find({ listed: true }).sort({ Date: -1 }).limit(4).populate('category')
-      .populate('productBrand')
-      .populate('offers');
+    const [userdata, latestProducts] = await Promise.all([
+      User.findById(req.session.userid),
+      product.find({ listed: true }).sort({ Date: -1 }).limit(4)
+        .populate('category')
+        .populate('productBrand')
+        .populate('offers')
+    ]);
 
     latestProducts.forEach(prod => {
       if (prod.offers && prod.offers.length > 0) {
@@ -493,19 +496,19 @@ const load_product = async (req, res) => {
       filterObject.productName = { $regex: searchQuery, $options: 'i' };
     }
 
-    const categories = await category.find();
-    const brands = await brand.find();
-
-    const totalProducts = await product.countDocuments(filterObject);
+    const [categories, brands, totalProducts, product_data] = await Promise.all([
+      category.find(),
+      brand.find(),
+      product.countDocuments(filterObject),
+      product.find(filterObject)
+        .populate('category')
+        .populate('productBrand')
+        .populate('offers')
+        .sort({ Date: -1 })
+        .skip(skip)
+        .limit(limit)
+    ]);
     const totalPages = Math.ceil(totalProducts / limit);
-
-    const product_data = await product.find(filterObject)
-      .populate('category')
-      .populate('productBrand')
-      .populate('offers')
-      .sort({ Date: -1 })
-      .skip(skip)
-      .limit(limit);
 
     product_data.forEach(prod => {
       if (prod.offers && prod.offers.length > 0) {
